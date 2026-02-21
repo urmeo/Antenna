@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "Microstrip Patch Antenna: 2.45 GHz Geometry Comparison"
+message: "If you use this work, please cite it using the metadata below."
+type: dataset
+authors:
+  - family-names: Bose
+    given-names: Urme
+license: CC-BY-4.0
+date-released: "2018-12-18"
+url: https://github.com/urme-b/Antenna
+repository-code: https://github.com/urme-b/Antenna
+keywords:
+  - microstrip patch antenna
+  - 2.45 GHz
+  - CST Studio Suite
+  - FR-4
+  - antenna geometry comparison
+  - RF engineering
+  - ISM band

@@ -1,5 +1,8 @@
-# Binary files
-*.jpg binary
-*.png binary
-*.gif binary
-*.pdf binary
+# Track large binary assets with Git LFS so future commits don't bloat history.
+# Antenna is a pure data/figures repo (no GitHub Pages, no CI reading these),
+# so LFS is safe here. Run `git lfs install` once, then see _standardization/DEBLOAT.md
+# to migrate the already-committed blobs out of history.
+*.jpg  filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.png  filter=lfs diff=lfs merge=lfs -text
+*.pdf  filter=lfs diff=lfs merge=lfs -text

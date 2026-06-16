@@ -1,7 +1,5 @@
 # Microstrip Patch Antenna — 2.45 GHz Geometry Comparison
 
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
-
 Comparative study of five microstrip patch antenna geometries (circular, F-shaped, triangular, square, hexagonal) operating at 2.45 GHz. Each design was simulated in CST Studio Suite, fabricated on FR-4 substrate, and measured with a Rohde & Schwarz VNA.
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)

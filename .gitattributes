@@ -1,7 +1,13 @@
-# Track large binary assets with Git LFS so future commits don't bloat history.
-# Antenna is a pure data/figures repo (no GitHub Pages, no CI reading these),
-# so LFS is safe here. Run `git lfs install` once, then see _standardization/DEBLOAT.md
-# to migrate the already-committed blobs out of history.
+# Git LFS is declared for large binary assets so that FUTURE commits don't add
+# more weight to history. To enable the forward policy, run `git lfs install`
+# once before adding new media.
+#
+# NOTE — honest status: the binaries already committed before this policy
+# (~50 MB of full-resolution lab photos and PDF reports) are still stored
+# directly in git history and are NOT in LFS; a `.gitattributes` filter does not
+# migrate existing files. Shrinking the existing history requires a one-time
+# `git lfs migrate import` (or git-filter-repo), which rewrites history and
+# invalidates existing clones — deferred until that trade-off is accepted.
 *.jpg  filter=lfs diff=lfs merge=lfs -text
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.png  filter=lfs diff=lfs merge=lfs -text

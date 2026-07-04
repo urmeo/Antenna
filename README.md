@@ -10,13 +10,15 @@ Comparative study of five microstrip patch antenna geometries (circular, F-shape
 
 All five geometries were modeled in CST Studio Suite before fabrication. Each antenna was simulated at 2.45 GHz to evaluate return loss, impedance matching, bandwidth, and radiation characteristics. The 3D models, S11 plots, VSWR curves, radiation patterns, and far-field views are available in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf). The parametric CST VBA macro that builds each antenna from scratch is in the [`cst/`](cst/) directory.
 
-| Geometry       | S11 (dB)   | VSWR      | Bandwidth (%) | Gain (dBi) | Side Lobe (dB) |
-|----------------|------------|-----------|---------------|------------|-----------------|
+| Geometry       | S11 (dB)   | VSWR      | Bandwidth (%) | Main Lobe (dB) | Side Lobe (dB) |
+|----------------|------------|-----------|---------------|----------------|-----------------|
 | **Circular**   | **−53.08** | **1.004** | **3.12**      | **5.54**   | **−3.7**        |
 | F-shaped       | −30.02     | 1.065     | 2.98          | 4.11       | −1.6            |
 | Triangular     | −18.86     | 1.257     | 2.45          | 4.51       | −0.6            |
 | Square         | −16.38     | 1.357     | 2.41          | 3.00       | −6.7            |
-| Hexagonal      | −14.78     | 1.446     | 2.12          | 5.54       | −7.0            |
+| Hexagonal      | −14.78     | 1.446     | 2.12          | 5.54           | −7.0            |
+
+> *Main Lobe (dB)* is the far-field main-lobe magnitude read from CST's polar plot — the source reports it as *Main Lobe Magnitude (dB)*, not gain in dBi. Circular and hexagonal genuinely share a 5.54 dB main lobe.
 
 ### Measurement (VNA)
 

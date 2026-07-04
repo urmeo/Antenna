@@ -1,6 +1,6 @@
 # Microstrip Patch Antenna — 2.45 GHz Geometry Comparison
 
-Comparative study of five microstrip patch antenna geometries (circular, F-shaped, triangular, square, hexagonal) operating at 2.45 GHz. Each design was simulated in CST Studio Suite, fabricated on FR-4 substrate, and measured with a Rohde & Schwarz VNA.
+Comparative study of five microstrip patch antenna geometries (circular, F-shaped, triangular, square, hexagonal) designed for 2.45 GHz. Each design was simulated in CST Studio Suite, fabricated on FR-4 substrate, and measured with a Rohde & Schwarz VNA.
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)
 
@@ -40,11 +40,11 @@ All five geometries were modeled in CST Studio Suite before fabrication. Each an
 | Square     | −16.38      | −14.46       | +1.92     | 1.357    | 1.536     | +0.179 |
 | Hexagonal  | −14.78      | −13.93       | +0.85     | 1.446    | 1.694     | +0.248 |
 
-Circular patch came out on top in both simulation and measurement. All five designs cleared the S11 < −10 dB threshold, confirming acceptable impedance matching at 2.45 GHz. The ranking held across simulation and measurement, though measured return loss was consistently higher (worse) than simulated. The largest delta appeared in the circular patch (21 dB), likely because its deep simulated null is sensitive to any real-world imperfection. Probable error sources include SMA connector parasitics, FR-4 permittivity variation (manufacturer spec: 4.2–4.8, simulation used 4.4), etching undercut reducing trace accuracy, and soldering losses at the SMA–feed junction.
+Circular patch came out on top in both simulation and measurement, and was the only design to resonate close to the 2.45 GHz target. All five cleared the S11 < −10 dB threshold **at their respective resonant frequencies**; however, judging by the simulated −10 dB band edges, the other four resonated below target (F-shaped ≈ 2.34 GHz, triangular ≈ 2.21 GHz, hexagonal ≈ 2.17 GHz, square ≈ 2.13 GHz), so part of the spread across geometries reflects frequency detuning as well as shape. The ranking held across simulation and measurement, though measured return loss was consistently higher (worse) than simulated. The largest delta appeared in the circular patch (21 dB), likely because its deep simulated null is sensitive to any real-world imperfection. Probable error sources include SMA connector parasitics, FR-4 permittivity variation (manufacturer spec: 4.2–4.8, simulation used 4.4), etching undercut reducing trace accuracy, and soldering losses at the SMA–feed junction.
 
 ## Fabricated Antennas
 
-Each geometry was fabricated on FR-4 with SMA connectors — two samples per design.
+Each geometry was fabricated on FR-4 with SMA connectors — two samples per design, one of which was characterized on the VNA.
 
 | Circular (best performer) | F-shaped | Triangular |
 |:---:|:---:|:---:|
@@ -158,7 +158,7 @@ Antenna/
 
 ## Applications
 
-2.45 GHz microstrip patch antennas are used in Bluetooth, Wi-Fi (802.11b/g/n), ZigBee, and satellite communication systems. This study shows that patch geometry alone can noticeably improve antenna performance without increasing design complexity.
+2.45 GHz microstrip patch antennas are used in Bluetooth, Wi-Fi (802.11b/g/n), ZigBee, and satellite communication systems. This study shows that patch geometry noticeably affects return loss, bandwidth, and radiation characteristics; because the five designs did not all resonate at the common 2.45 GHz target, the observed differences reflect both geometry and frequency detuning.
 
 ## Tools
 

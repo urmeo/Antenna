@@ -18,3 +18,10 @@ Temp/
 *.swp
 *.swo
 *~
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+build/

@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "design_frequency_ghz": 2.45,
+    "substrate": {
+      "name": "FR-4",
+      "epsilon_r": 4.4,
+      "loss_tangent": 0.02,
+      "height_mm": 1.4,
+      "conductor": "copper",
+      "conductor_height_mm": 0.036
+    },
+    "ground_plane_mm": {"width": 75.20, "length": 58.76},
+    "feed_mm": {"width": 2.7, "patch_gap": 1.0}
+  },
+  "geometries": [
+    {
+      "key": "circular",
+      "name": "Circular",
+      "highlight": true,
+      "dimensions_mm": {"R": 17.0},
+      "simulation": {
+        "s11_db": -53.08,
+        "vswr": 1.004,
+        "bandwidth_pct": 3.12,
+        "band_edges_ghz": [2.399, 2.4735],
+        "main_lobe_db": 5.54,
+        "side_lobe_db": -3.7
+      },
+      "measurement": {"s11_db": -31.99, "vswr": 1.125, "read_at": "resonant frequency", "verified": false}
+    },
+    {
+      "key": "fshaped",
+      "name": "F-shaped",
+      "highlight": false,
+      "dimensions_mm": {"W": 37.60, "L": 29.38, "Vw": 10.0, "Bh": 8.0, "Sh": 3.0, "Mw": 25.0},
+      "simulation": {
+        "s11_db": -30.02,
+        "vswr": 1.065,
+        "bandwidth_pct": 2.98,
+        "band_edges_ghz": [2.2994, 2.3735],
+        "main_lobe_db": 4.11,
+        "side_lobe_db": -1.6
+      },
+      "measurement": {"s11_db": -16.98, "vswr": 1.167, "read_at": "resonant frequency", "verified": false}
+    },
+    {
+      "key": "triangular",
+      "name": "Triangular",
+      "highlight": false,
+      "dimensions_mm": {"Tb": 37.60, "Th": 29.38},
+      "simulation": {
+        "s11_db": -18.86,
+        "vswr": 1.257,
+        "bandwidth_pct": 2.45,
+        "band_edges_ghz": [2.138, 2.283],
+        "main_lobe_db": 4.51,
+        "side_lobe_db": -0.6
+      },
+      "measurement": {"s11_db": -15.37, "vswr": 1.368, "read_at": "resonant frequency", "verified": false}
+    },
+    {
+      "key": "square",
+      "name": "Square",
+      "highlight": false,
+      "dimensions_mm": {"S": 29.38},
+      "simulation": {
+        "s11_db": -16.38,
+        "vswr": 1.357,
+        "bandwidth_pct": 2.41,
+        "band_edges_ghz": [2.093, 2.1732],
+        "main_lobe_db": 3.00,
+        "side_lobe_db": -6.7
+      },
+      "measurement": {"s11_db": -14.46, "vswr": 1.536, "read_at": "resonant frequency", "verified": false}
+    },
+    {
+      "key": "hexagonal",
+      "name": "Hexagonal",
+      "highlight": false,
+      "dimensions_mm": {"Ha": 17.0},
+      "simulation": {
+        "s11_db": -14.78,
+        "vswr": 1.446,
+        "bandwidth_pct": 2.12,
+        "band_edges_ghz": [2.0945, 2.2455],
+        "main_lobe_db": 5.54,
+        "side_lobe_db": -7.0
+      },
+      "measurement": {"s11_db": -13.93, "vswr": 1.694, "read_at": "resonant frequency", "verified": false}
+    }
+  ]
+}

@@ -10,37 +10,57 @@ Comparative study of five microstrip patch antenna geometries (circular, F-shape
 
 All five geometries were modeled in CST Studio Suite before fabrication. Each antenna was simulated at 2.45 GHz to evaluate return loss, impedance matching, bandwidth, and radiation characteristics. The 3D models, S11 plots, VSWR curves, radiation patterns, and far-field views are available in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf). The parametric CST VBA macro that builds each antenna from scratch is in the [`cst/`](cst/) directory.
 
-| Geometry       | S11 (dB)   | VSWR      | Bandwidth (%) | Main Lobe (dB) | Side Lobe (dB) |
-|----------------|------------|-----------|---------------|----------------|-----------------|
-| **Circular**   | **−53.08** | **1.004** | **3.12**      | **5.54**   | **−3.7**        |
-| F-shaped       | −30.02     | 1.065     | 2.98          | 4.11       | −1.6            |
-| Triangular     | −18.86     | 1.257     | 2.45          | 4.51       | −0.6            |
-| Square         | −16.38     | 1.357     | 2.41          | 3.00       | −6.7            |
-| Hexagonal      | −14.78     | 1.446     | 2.12          | 5.54           | −7.0            |
+<!-- BEGIN:sim-table -->
+| Geometry | S11 (dB) | VSWR | Bandwidth (%) | Main Lobe (dB) | Side Lobe (dB) |
+|---|---|---|---|---|---|
+| **Circular** | **−53.08** | **1.004** | **3.12** | **5.54** | **−3.7** |
+| F-shaped | −30.02 | 1.065 | 2.98 | 4.11 | −1.6 |
+| Triangular | −18.86 | 1.257 | 2.45 | 4.51 | −0.6 |
+| Square | −16.38 | 1.357 | 2.41 | 3.00 | −6.7 |
+| Hexagonal | −14.78 | 1.446 | 2.12 | 5.54 | −7.0 |
+<!-- END:sim-table -->
 
 > *Main Lobe (dB)* is the far-field main-lobe magnitude read from CST's polar plot — the source reports it as *Main Lobe Magnitude (dB)*, not gain in dBi. Circular and hexagonal genuinely share a 5.54 dB main lobe.
 
 ### Measurement (VNA)
 
-| Geometry       | S11 (dB)   | VSWR      |
-|----------------|------------|-----------|
-| **Circular**   | **−31.99** | **1.125** |
-| F-shaped       | −16.98     | 1.167     |
-| Triangular     | −15.37     | 1.368     |
-| Square         | −14.46     | 1.536     |
-| Hexagonal      | −13.93     | 1.694     |
+<!-- BEGIN:measurement-table -->
+| Geometry | S11 (dB) | VSWR |
+|---|---|---|
+| **Circular** | **−31.99** | **1.125** |
+| F-shaped | −16.98 | 1.167 |
+| Triangular | −15.37 | 1.368 |
+| Square | −14.46 | 1.536 |
+| Hexagonal | −13.93 | 1.694 |
+<!-- END:measurement-table -->
 
 ### Simulation vs. Measurement
 
-| Geometry   | S11 sim (dB) | S11 meas (dB) | ΔS11 (dB) | VSWR sim | VSWR meas | ΔVSWR |
-|------------|-------------|--------------|-----------|----------|-----------|-------|
-| Circular   | −53.08      | −31.99       | +21.09    | 1.004    | 1.125     | +0.121 |
-| F-shaped   | −30.02      | −16.98       | +13.04    | 1.065    | 1.167     | +0.102 |
-| Triangular | −18.86      | −15.37       | +3.49     | 1.257    | 1.368     | +0.111 |
-| Square     | −16.38      | −14.46       | +1.92     | 1.357    | 1.536     | +0.179 |
-| Hexagonal  | −14.78      | −13.93       | +0.85     | 1.446    | 1.694     | +0.248 |
+<!-- BEGIN:delta-table -->
+| Geometry | S11 sim (dB) | S11 meas (dB) | ΔS11 (dB) | VSWR sim | VSWR meas | ΔVSWR |
+|---|---|---|---|---|---|---|
+| Circular | −53.08 | −31.99 | +21.09 | 1.004 | 1.125 | +0.121 |
+| F-shaped | −30.02 | −16.98 | +13.04 | 1.065 | 1.167 | +0.102 |
+| Triangular | −18.86 | −15.37 | +3.49 | 1.257 | 1.368 | +0.111 |
+| Square | −16.38 | −14.46 | +1.92 | 1.357 | 1.536 | +0.179 |
+| Hexagonal | −14.78 | −13.93 | +0.85 | 1.446 | 1.694 | +0.248 |
+<!-- END:delta-table -->
 
 Circular patch came out on top in both simulation and measurement, and was the only design to resonate close to the 2.45 GHz target. All five cleared the S11 < −10 dB threshold **at their respective resonant frequencies**; however, judging by the simulated −10 dB band edges, the other four resonated below target (F-shaped ≈ 2.34 GHz, triangular ≈ 2.21 GHz, hexagonal ≈ 2.17 GHz, square ≈ 2.13 GHz), so part of the spread across geometries reflects frequency detuning as well as shape. The ranking held across simulation and measurement, though measured return loss was consistently higher (worse) than simulated. The largest delta appeared in the circular patch (21 dB), likely because its deep simulated null is sensitive to any real-world imperfection. Probable error sources include SMA connector parasitics, FR-4 permittivity variation (manufacturer spec: 4.2–4.8, simulation used 4.4), etching undercut reducing trace accuracy, and soldering losses at the SMA–feed junction.
+
+## Figure of Merit
+
+The five geometries occupy different footprints, so raw main-lobe magnitude is not a fair comparison. The table below normalises gain by metal footprint and by bandwidth — generated from the same data by the [`antenna`](tools/) toolkit. By area-normalised gain the smaller triangular and hexagonal patches lead; by the gain–bandwidth product the circular patch stays on top.
+
+<!-- BEGIN:fom-table -->
+| Geometry | Footprint (mm²) | Main Lobe (dB) | Gain ÷ area (cm⁻²) | Gain × BW |
+|---|---|---|---|---|
+| **Circular** | **908** | **5.54** | **0.394** | **0.112** |
+| F-shaped | 635 | 4.11 | 0.406 | 0.077 |
+| Triangular | 552 | 4.51 | 0.511 | 0.069 |
+| Square | 863 | 3.00 | 0.231 | 0.048 |
+| Hexagonal | 751 | 5.54 | 0.477 | 0.076 |
+<!-- END:fom-table -->
 
 ## Fabricated Antennas
 
@@ -114,6 +134,20 @@ A single parametric CST Studio VBA macro — [`patch-antenna.bas`](cst/patch-ant
 
 Conductors are modelled as annealed copper (finite conductivity) and the substrate permittivity (`Eps`) is exposed as a parameter for FR-4 tolerance sweeps. *Note: the results tables above were produced with the earlier perfect-conductor (PEC) model; re-running with the copper model and adaptive mesh is a pending follow-up.*
 
+## Analysis Toolkit
+
+The [`tools/`](tools/) directory holds a small, dependency-free Python package that makes every number in this README a **computed view of one source of truth** ([`tools/data/results.json`](tools/data/results.json)) — so the tables can never drift from the data, or from each other.
+
+```bash
+PYTHONPATH=tools python -m antenna check          # validate S11 ↔ VSWR and bandwidth ↔ band edges
+PYTHONPATH=tools python -m antenna tables --write # regenerate the README result tables
+PYTHONPATH=tools python -m antenna design         # closed-form resonance per geometry vs 2.45 GHz
+PYTHONPATH=tools python -m antenna plot           # summary plots (accepts Touchstone .s1p exports)
+pytest                                            # unit tests for the RF math and design equations
+```
+
+`antenna check` runs in CI ([`validate.yml`](.github/workflows/validate.yml)): a hard contradiction fails the build, while known-pending items — such as the measurement VSWR awaiting a raw VNA trace — surface as warnings rather than blocking it.
+
 ## Documentation
 
 | Document | Contents |
@@ -129,10 +163,19 @@ Antenna/
 ├── README.md
 ├── LICENSE
 ├── CITATION.cff
+├── pyproject.toml
 ├── .gitignore
 ├── .gitattributes
+├── .github/
+│   └── workflows/
+│       └── validate.yml
 ├── cst/
 │   └── patch-antenna.bas
+├── tools/
+│   ├── antenna/            # analysis package: metrics, design, tables, checks, plots
+│   ├── data/
+│   │   └── results.json    # single source of truth for every results table
+│   └── tests/
 ├── docs/
 │   ├── methodology.pdf
 │   ├── simulation-and-results.pdf

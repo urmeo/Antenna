@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "antenna-tools"
+version = "0.1.0"
+description = "Analysis toolkit for the 2.45 GHz microstrip patch antenna study"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+plots = ["matplotlib>=3.5", "numpy>=1.21"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+antenna = "antenna.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["tools"]
+include = ["antenna*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["tools"]
+testpaths = ["tools/tests"]

@@ -8,7 +8,7 @@ Comparative study of five microstrip patch antenna geometries (circular, F-shape
 
 ### Simulation (CST Studio)
 
-All five geometries were modeled in CST Studio Suite before fabrication. Each antenna was simulated at 2.45 GHz to evaluate return loss, impedance matching, bandwidth, and radiation characteristics. The 3D models, S11 plots, VSWR curves, radiation patterns, and far-field views are available in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf). The CST VBA macros that build each antenna from scratch are in the [`cst/`](cst/) directory.
+All five geometries were modeled in CST Studio Suite before fabrication. Each antenna was simulated at 2.45 GHz to evaluate return loss, impedance matching, bandwidth, and radiation characteristics. The 3D models, S11 plots, VSWR curves, radiation patterns, and far-field views are available in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf). The parametric CST VBA macro that builds each antenna from scratch is in the [`cst/`](cst/) directory.
 
 | Geometry       | S11 (dB)   | VSWR      | Bandwidth (%) | Gain (dBi) | Side Lobe (dB) |
 |----------------|------------|-----------|---------------|------------|-----------------|
@@ -100,15 +100,17 @@ Each geometry was fabricated on FR-4 with SMA connectors — two samples per des
 
 ## Simulation Macros
 
-CST Studio VBA macros for each geometry — open in CST and run to build the full antenna model (substrate, ground plane, patch, feed line, port, and solver).
+A single parametric CST Studio VBA macro — [`patch-antenna.bas`](cst/patch-antenna.bas) — builds any of the five geometries. Set `PatchShape` at the top of `Main` and run; it generates the substrate, ground plane, patch, feed line, waveguide port, field monitors, and solver from scratch. The feed line and port are defined once and driven by two per-shape expressions (`Ey`, the patch edge facing the feed, and `Fx`, the feed centre), so every geometry shares the same matched-feed logic.
 
-| Macro | Patch shape |
-|-------|-------------|
-| [`circular-patch.bas`](cst/circular-patch.bas) | Cylinder — R = 17.0 mm |
-| [`square-patch.bas`](cst/square-patch.bas) | Brick — S = 29.38 mm |
-| [`triangular-patch.bas`](cst/triangular-patch.bas) | Extruded isosceles triangle — base 37.60 mm, height 29.38 mm |
-| [`hexagonal-patch.bas`](cst/hexagonal-patch.bas) | Extruded regular hexagon — side 17.0 mm |
-| [`f-shaped-patch.bas`](cst/f-shaped-patch.bas) | Boolean union of vertical bar + two horizontal bars |
+| `PatchShape`   | Patch shape |
+|----------------|-------------|
+| `"circular"`   | Cylinder — R = 17.0 mm |
+| `"square"`     | Brick — S = 29.38 mm |
+| `"triangular"` | Extruded isosceles triangle — base 37.60 mm, height 29.38 mm |
+| `"hexagonal"`  | Extruded regular hexagon — side 17.0 mm |
+| `"fshaped"`    | Boolean union of vertical bar + two horizontal bars |
+
+Conductors are modelled as annealed copper (finite conductivity) and the substrate permittivity (`Eps`) is exposed as a parameter for FR-4 tolerance sweeps. *Note: the results tables above were produced with the earlier perfect-conductor (PEC) model; re-running with the copper model and adaptive mesh is a pending follow-up.*
 
 ## Documentation
 
@@ -128,11 +130,7 @@ Antenna/
 ├── .gitignore
 ├── .gitattributes
 ├── cst/
-│   ├── circular-patch.bas
-│   ├── square-patch.bas
-│   ├── triangular-patch.bas
-│   ├── hexagonal-patch.bas
-│   └── f-shaped-patch.bas
+│   └── patch-antenna.bas
 ├── docs/
 │   ├── methodology.pdf
 │   ├── simulation-and-results.pdf

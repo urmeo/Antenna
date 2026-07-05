@@ -92,13 +92,13 @@ The five patches occupy different footprints, so raw main-lobe magnitude is not 
 
 Generated straight from the data by the toolkit:
 
-| Return loss: simulation vs measurement | Closed-form resonance per geometry |
+| Return loss: simulation vs measurement | CST S11 sweep: circular patch |
 |:---:|:---:|
-| ![S11 sim vs meas](images/plots/s11_sim_vs_meas.png) | ![Resonance vs target](images/plots/resonance_vs_target.png) |
+| ![S11 sim vs meas](images/plots/s11_sim_vs_meas.png) | ![CST S11 circular patch](images/plots/s11_circular_cst.png) |
 
 - Left: measured S11 tracks the simulated ranking bar for bar, all five below the −10 dB threshold
-- Right: shape-correct design equations compute each geometry's resonance; the square patch lands nearest 2.45 GHz, the hexagon drifts highest
-- Full CST outputs (S11 curves, VSWR, radiation patterns, far-field views) in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf)
+- Right: the winning circular patch's simulated S11 — a −53.08 dB null at 2.434 GHz (Fig 4.2)
+- Full CST outputs for all five shapes (S11 curves, VSWR, radiation patterns, far-field views) in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf)
 
 ## Fabricated Antennas
 

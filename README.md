@@ -177,9 +177,12 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 | Layer | Tool |
 |---|---|
-| EM simulation | CST Studio Suite — VBA macro, time-domain solver |
-| Analysis | Python 3.9+ (stdlib core, matplotlib optional), pytest, GitHub Actions |
-| Fabrication | CorelDraw mask, photolithography, NaOH developer, chemical etch |
+| EM simulation | CST Studio Suite (VBA macro, time-domain solver) |
+| Model scripting | CST VBA ([patch-antenna.bas](cst/patch-antenna.bas)) |
+| Analysis toolkit | Python 3.9+ (standard library core; matplotlib optional) |
+| Testing | pytest (14 tests) |
+| Mask design | CorelDraw |
+| Fabrication | Photolithography: laminator, UV exposure, NaOH developer, chemical etching |
 | Measurement | Rohde & Schwarz ZVH vector network analyzer |
 | Substrate | FR-4, 1.4 mm, 0.036 mm copper |
 

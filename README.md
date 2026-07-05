@@ -1,6 +1,6 @@
 # Microstrip Patch Antenna — 2.45 GHz Geometry Comparison
 
-Comparative study of five microstrip patch antenna geometries (circular, F-shaped, triangular, square, hexagonal) designed for 2.45 GHz. Each design was simulated in CST Studio Suite, fabricated on FR-4 substrate, and measured with a Rohde & Schwarz VNA.
+Comparative study of five microstrip patch antenna geometries (circular, F-shaped, triangular, square, hexagonal) designed for 2.45 GHz. Each design was simulated in CST Studio Suite, fabricated on FR-4 substrate, and measured with a Rohde & Schwarz VNA. Because all five were sized with a single rectangular formula, four ended up resonating below 2.45 GHz — so the comparison reflects both patch shape and residual frequency detuning, a confound quantified under [Limitations & Future Work](#limitations--future-work).
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)
 
@@ -47,6 +47,8 @@ All five geometries were modeled in CST Studio Suite before fabrication. Each an
 <!-- END:delta-table -->
 
 Circular patch came out on top in both simulation and measurement, and was the only design to resonate close to the 2.45 GHz target. All five cleared the S11 < −10 dB threshold **at their respective resonant frequencies**; however, judging by the simulated −10 dB band edges, the other four resonated below target (F-shaped ≈ 2.34 GHz, triangular ≈ 2.21 GHz, hexagonal ≈ 2.17 GHz, square ≈ 2.13 GHz), so part of the spread across geometries reflects frequency detuning as well as shape. The ranking held across simulation and measurement, though measured return loss was consistently higher (worse) than simulated. The largest delta appeared in the circular patch (21 dB), likely because its deep simulated null is sensitive to any real-world imperfection. Probable error sources include SMA connector parasitics, FR-4 permittivity variation (manufacturer spec: 4.2–4.8, simulation used 4.4), etching undercut reducing trace accuracy, and soldering losses at the SMA–feed junction.
+
+![Return loss: simulation vs measurement](images/analysis/s11_sim_vs_meas.png)
 
 ## Figure of Merit
 
@@ -181,6 +183,7 @@ Antenna/
 │   ├── simulation-and-results.pdf
 │   └── fabrication-and-measurement.pdf
 └── images/
+    ├── analysis/           # generated plots (python -m antenna plot)
     ├── equipment/
     │   ├── vna-smith-chart.jpg
     │   ├── laminator.jpg
@@ -198,6 +201,31 @@ Antenna/
         ├── hexagonal-patch.jpg
         └── all-five-geometries.jpg
 ```
+
+## Limitations & Future Work
+
+An honest snapshot: the engineering is solid, but several headline numbers are estimates pending instrument runs. The toolkit already ships the machinery to close each gap — none of them are patched with invented data.
+
+### The two resonance stories
+
+The repository estimates resonance two ways that disagree for the triangle and hexagon:
+
+![Closed-form resonance vs the 2.45 GHz target](images/analysis/resonance_vs_target.png)
+
+- **Closed-form synthesis** (`python -m antenna design`, plotted above): Circular 2.40, F-shaped 2.41, Square 2.43, Triangular 2.53, Hexagonal 2.63 GHz.
+- **Simulated band-edge centres** (the results discussion above): Triangular ≈ 2.21, Hexagonal ≈ 2.17 GHz — *below* target.
+
+They diverge because the closed forms for the triangle (equilateral approximation of an isosceles patch) and hexagon (equal-area circle) are coarse, and because three of the five simulated band-edge pairs do not reproduce their own stated bandwidth (`python -m antenna check` flags this). A direct S11 minimum from a measured or re-simulated sweep is the arbiter — exactly what the macro's `s11.s1p` export and `python -m antenna ingest` now produce.
+
+### Pending on CST / VNA runs
+
+| Gap | The easy path (already built) |
+|-----|-------------------------------|
+| Headline results still use the earlier perfect-conductor (PEC) model | Re-run the copper macro → `s11.s1p` → `antenna ingest` recomputes the numbers |
+| Every measured VSWR contradicts its own S11, at n = 1 (one of two samples measured) | Read S11 and VSWR from a single Γ sweep so they agree by construction; measure both samples for mean ± spread |
+| Four of five patches are detuned from 2.45 GHz | `python -m antenna synth` gives the corrected primary dimension per shape; rebuild and re-run |
+| The figure of merit uses simulated main-lobe magnitude as a gain proxy | Measure realised gain on the VNA |
+| No mesh-convergence study behind the −53 dB null | Sweep mesh density; the macro already enables adaptive mesh |
 
 ## Applications
 

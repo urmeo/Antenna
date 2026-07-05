@@ -25,3 +25,6 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 build/
+
+# Local tooling
+.claude/

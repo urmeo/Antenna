@@ -180,7 +180,7 @@ Every number in this README is a computed view of one file, [`tools/data/results
 | Module | What it does |
 |---|---|
 | `metrics.py` | Exact S11, reflection coefficient, and VSWR identities; bandwidth from band edges |
-| `design.py` | Shape-correct resonance equations (Balanis, Garg), synthesis to target, footprint areas |
+| `design.py` | Shape-correct resonance equations (Balanis, Garg) and patch footprint areas |
 | `fom.py` | Area-normalised gain and gain-bandwidth product |
 | `check.py` | Physics validator wired into CI |
 | `tables.py` | Renders and injects every README table between marker comments |
@@ -189,8 +189,7 @@ Every number in this README is a computed view of one file, [`tools/data/results
 
 - Regenerates every results table from the data file in one step, so the README stays exact
 - Cross-checks S11, VSWR, and band-edge physics on every push via GitHub Actions ([`validate.yml`](.github/workflows/validate.yml))
-- `python -m antenna synth` computes the dimension that puts each shape exactly on 2.45 GHz
-- `python -m antenna ingest` reads Touchstone (`.s1p`) sweeps and derives resonance, VSWR, and bandwidth from one trace
+- Reads Touchstone (`.s1p`) sweeps: `ingest` extracts resonance, VSWR, and bandwidth; `synth` sizes each shape for the target frequency
 - 14 passing unit tests; matplotlib is the only optional dependency, used just for charts
 
 ## Known Limitations

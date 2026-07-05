@@ -199,10 +199,10 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 ## References
 
-1. C. A. Balanis, *Antenna Theory: Analysis and Design*, 4th ed. Wiley, 2016 — ch. 14: transmission-line and cavity models.
-2. R. Garg, P. Bhartia, I. Bahl, A. Ittipiboon, *Microstrip Antenna Design Handbook*. Artech House, 2001.
-3. D. M. Pozar, "Microstrip Antennas," *Proc. IEEE*, vol. 80, no. 1, pp. 79-91, 1992.
-4. K. F. Lee, K. M. Luk, *Microstrip Patch Antennas*. Imperial College Press, 2011.
+1. C. A. Balanis, *Antenna Theory: Analysis and Design*, 4th ed. Hoboken, NJ: Wiley, 2016. Chapters 14.2-14.4: transmission-line and cavity models for rectangular and circular patches.
+2. R. Garg, P. Bhartia, I. Bahl, and A. Ittipiboon, *Microstrip Antenna Design Handbook*. Norwood, MA: Artech House, 2001. Design curves and impedance matching for varied patch geometries.
+3. D. M. Pozar, "Microstrip Antennas," *Proc. IEEE*, vol. 80, no. 1, pp. 79-91, Jan. 1992. Survey of microstrip theory, design methods, and feeding techniques.
+4. K. F. Lee and K. M. Luk, *Microstrip Patch Antennas*. London: Imperial College Press, 2011. Geometry-specific analysis of triangular, circular, and polygonal patches.
 
 ## License
 

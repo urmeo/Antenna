@@ -7,10 +7,6 @@ approximation until measured realised gain is available.
 """
 from __future__ import annotations
 
-from typing import Dict
-
-from .design import patch_area_mm2
-
 
 def gain_linear(main_lobe_db: float) -> float:
     return 10.0 ** (main_lobe_db / 10.0)
@@ -23,7 +19,3 @@ def gain_per_area(main_lobe_db: float, area_mm2: float) -> float:
 
 def gain_bandwidth_product(main_lobe_db: float, bandwidth_pct: float) -> float:
     return gain_linear(main_lobe_db) * (bandwidth_pct / 100.0)
-
-
-def footprint_area_mm2(key: str, dims: Dict[str, float]) -> float:
-    return patch_area_mm2(key, dims)

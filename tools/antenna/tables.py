@@ -10,7 +10,8 @@ import re
 from typing import Dict, List, Sequence, Tuple
 
 from . import fom
-from .results import Dataset, Geometry, load
+from .design import patch_area_mm2
+from .results import Dataset, load
 
 MINUS = "−"
 
@@ -75,7 +76,7 @@ def figure_of_merit_table(ds: Dataset) -> str:
     rows = []
     for g in ds.geometries:
         s = g.simulation
-        area = fom.footprint_area_mm2(g.key, g.dimensions_mm)
+        area = patch_area_mm2(g.key, g.dimensions_mm)
         rows.append(([g.name, _num(area, 0), _num(s.main_lobe_db, 2),
                       _num(fom.gain_per_area(s.main_lobe_db, area), 3),
                       _num(fom.gain_bandwidth_product(s.main_lobe_db, s.bandwidth_pct), 3)], g.highlight))

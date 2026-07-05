@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List
 
 _FREQ_SCALE = {"HZ": 1.0, "KHZ": 1e3, "MHZ": 1e6, "GHZ": 1e9}
 
@@ -17,16 +17,6 @@ _FREQ_SCALE = {"HZ": 1.0, "KHZ": 1e3, "MHZ": 1e6, "GHZ": 1e9}
 class Sweep:
     freqs_ghz: List[float]
     s11_db: List[float]
-
-    def resonance(self) -> Tuple[float, float]:
-        """Frequency (GHz) and depth (dB) of the deepest return-loss point."""
-        i = min(range(len(self.s11_db)), key=lambda k: self.s11_db[k])
-        return self.freqs_ghz[i], self.s11_db[i]
-
-    def bandwidth_ghz(self, threshold_db: float = -10.0) -> "Tuple[float, float] | None":
-        """Band edges where S11 crosses ``threshold_db`` around resonance."""
-        below = [f for f, v in zip(self.freqs_ghz, self.s11_db) if v <= threshold_db]
-        return (min(below), max(below)) if below else None
 
 
 def _to_db(a: float, b: float, fmt: str) -> float:

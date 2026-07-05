@@ -9,8 +9,6 @@ from __future__ import annotations
 
 import math
 
-SPEED_OF_LIGHT = 299_792_458.0  # m/s
-
 
 def reflection_coefficient(s11_db: float) -> float:
     """|Γ| from return loss in dB. Expects s11_db <= 0."""
@@ -18,8 +16,10 @@ def reflection_coefficient(s11_db: float) -> float:
 
 
 def vswr_from_s11_db(s11_db: float) -> float:
-    """VSWR implied by a return-loss reading."""
+    """VSWR implied by a return-loss reading. Infinite for |Γ| ≥ 1 (s11 ≥ 0)."""
     gamma = reflection_coefficient(s11_db)
+    if gamma >= 1.0:
+        return float("inf")
     return (1.0 + gamma) / (1.0 - gamma)
 
 

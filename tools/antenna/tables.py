@@ -17,7 +17,7 @@ MINUS = "−"
 
 # Invisible header padding so every README table renders at full page width
 # (GitHub sizes tables to their content). Tuned per table's natural width.
-_HEADER_PAD = {"sim-table": 70, "measurement-table": 145, "delta-table": 60, "fom-table": 70}
+_HEADER_PAD = {"sim-table": 65, "measurement-table": 145, "delta-table": 35, "fom-table": 55}
 
 
 def _num(value: float, decimals: int) -> str:

@@ -31,7 +31,7 @@ def overview(out_dir: str, ds: Optional[Dataset] = None) -> List[str]:
     # 1. Simulated vs measured return loss.
     sim = [g.simulation.s11_db for g in ds.geometries]
     meas = [g.measurement.s11_db if g.measurement else float("nan") for g in ds.geometries]
-    fig, ax = plt.subplots(figsize=(10, 3.45))
+    fig, ax = plt.subplots(figsize=(10, 3.52))
     ax.bar([i - 0.2 for i in x], sim, width=0.4, label="Simulation", color="#3b6ea5")
     ax.bar([i + 0.2 for i in x], meas, width=0.4, label="Measurement", color="#c1666b")
     ax.axhline(-10, ls="--", lw=1, color="#555", label="−10 dB threshold")

@@ -169,12 +169,6 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 - Four of five patches resonate below 2.45 GHz, mixing shape with detuning; `python -m antenna synth` gives corrected dimensions
 - Closed-form and simulated band-edge resonance estimates disagree for triangle and hexagon; a direct S11 minimum from the exported sweep is the arbiter
 
-## Roadmap
-
-- Drop CST/VNA Touchstone exports into `tools/data/` — reader and overlay plotting already wired
-- Measure realised gain on both samples per design
-- Sweep `Eps` across FR-4's 4.2–4.8 spec band
-
 ## Applications
 
 2.45 GHz ISM band: Wi-Fi (802.11 b/g/n), Bluetooth/BLE, ZigBee, RFID readers, wireless medical telemetry, industrial telemetry and microwave power transfer — low profile, cheap to etch, easily arrayed.

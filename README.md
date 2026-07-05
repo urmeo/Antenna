@@ -205,5 +205,4 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 ## License
 
-- Code — CST macro and Python toolkit: [MIT](LICENSE)
-- Documentation, images, and data: [CC BY 4.0](LICENSE-CC-BY-4.0)
+[MIT](LICENSE)

@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 title: "Microstrip Patch Antenna: 2.45 GHz Geometry Comparison"
 message: "If you use this work, please cite it using the metadata below."
-type: dataset
+type: software
 authors:
   - family-names: Bose
     given-names: Urme

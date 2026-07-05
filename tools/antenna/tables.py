@@ -16,9 +16,9 @@ from .results import Dataset, load
 MINUS = "−"
 
 # Invisible header padding so every README table renders at full page width
-# (GitHub sizes tables to their content). Counts browser-verified against
-# GitHub's rendered HTML; chunks of 10 NBSP + space wrap instead of forcing
-# a horizontal scrollbar on narrow screens.
+# with evenly distributed columns (GitHub sizes tables to their content).
+# Totals browser-verified against GitHub's rendered HTML; chunks of 10 NBSP
+# + space wrap instead of forcing a horizontal scrollbar on narrow screens.
 _PAD_CHUNK = "&nbsp;" * 10 + " "
 _HEADER_PAD = {"sim-table": 6, "measurement-table": 16, "delta-table": 4, "fom-table": 7}
 
@@ -100,8 +100,10 @@ TABLES = {
 
 def _pad_header(markdown: str, pad: int) -> str:
     lines = markdown.split("\n")
-    head, tail = lines[0].rsplit(" |", 1)
-    lines[0] = head + _PAD_CHUNK * pad + "|" + tail
+    cells = [c.strip() for c in lines[0].strip("|").split("|")]
+    share, extra = divmod(pad, len(cells))
+    padded = [c + _PAD_CHUNK * (share + (1 if i < extra else 0)) for i, c in enumerate(cells)]
+    lines[0] = "| " + " | ".join(padded) + "|"
     return "\n".join(lines)
 
 

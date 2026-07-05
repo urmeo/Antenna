@@ -1,7 +1,5 @@
 # Microstrip Patch Antenna: 2.45 GHz Geometry Comparison
 
-![validate](https://github.com/urme-b/Antenna/actions/workflows/validate.yml/badge.svg)
-
 **Which patch shape performs best at 2.45 GHz?** Five geometries — circular, F-shaped, triangular, square, hexagonal — designed, simulated in CST Studio Suite, fabricated on FR-4, measured on a Rohde & Schwarz VNA. **The circular patch wins in both simulation and measurement.**
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)

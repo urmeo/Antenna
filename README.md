@@ -64,16 +64,6 @@ Different footprints, so normalise:
 
 - Link budget and bandwidth: **circular**. Tight board area: **triangular** or **hexagonal**.
 
-## Graphs and Charts
-
-| Return loss: simulation vs measurement | CST S11 sweep: circular patch |
-|:---:|:---:|
-| ![S11 sim vs meas](images/plots/s11_sim_vs_meas.png) | ![CST S11 circular patch](images/plots/s11_circular_cst.png) |
-
-- Left: measured S11 tracks the simulated ranking, all five below −10 dB
-- Right: the winner's simulated S11 — a −53.08 dB null at 2.434 GHz (Fig 4.2)
-- Full CST outputs for all five shapes in [simulation-and-results.pdf](docs/simulation-and-results.pdf)
-
 ## Fabricated Antennas
 
 Two samples per design, photolithography on FR-4, SMA-fed:
@@ -143,6 +133,16 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 | Blank FR-4 substrate | Circular patch in NaOH developer bath |
 |:---:|:---:|
 | ![FR-4](images/fabrication/fr4-substrate-blank.jpg) | ![NaOH bath](images/fabrication/circular-patch-naoh-bath.jpg) |
+
+## Results
+
+| Return loss: simulation vs measurement | CST S11 sweep: circular patch |
+|:---:|:---:|
+| ![S11 sim vs meas](images/plots/s11_sim_vs_meas.png) | ![CST S11 circular patch](images/plots/s11_circular_cst.png) |
+
+- Left: measured S11 tracks the simulated ranking, all five below −10 dB
+- Right: the winner's simulated S11 — a −53.08 dB null at 2.434 GHz (Fig 4.2)
+- Full CST outputs for all five shapes in [simulation-and-results.pdf](docs/simulation-and-results.pdf)
 
 ## Analysis Toolkit
 

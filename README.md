@@ -158,10 +158,6 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 | `touchstone.py` | Minimal `.s1p` reader (DB, MA, RI) for VNA and CST sweeps |
 | `plots.py` | Publication-ready charts from the canonical data |
 
-- `tables --write` regenerates every table; GitHub Actions ([validate.yml](.github/workflows/validate.yml)) re-checks the physics on every push
-- `ingest` extracts resonance, VSWR, and bandwidth from `.s1p` sweeps; `synth` sizes each shape for the target frequency
-- 14 passing tests; standard library only — matplotlib optional, charts only
-
 ## Known Limitations
 
 - Results tables come from the original PEC simulations; the copper macro now exports `s11.s1p` to regenerate them from real sweeps

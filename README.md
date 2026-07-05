@@ -100,20 +100,20 @@ Two samples per design, photolithography on FR-4, SMA-fed:
 
 ## Simulation
 
-Set `PatchShape` in `Main` and run — [patch-antenna.bas](cst/patch-antenna.bas) builds substrate, ground plane, patch, feed, waveguide port, monitors, and solver from scratch.
+Set PatchShape in Main and run — [patch-antenna.bas](cst/patch-antenna.bas) builds substrate, ground plane, patch, feed, waveguide port, monitors, and solver from scratch.
 
-| `PatchShape` | Patch construction |
+| PatchShape | Patch construction |
 |---|---|
-| `"circular"` | Cylinder, R = 17.0 mm |
-| `"square"` | Brick, S = 29.38 mm |
-| `"triangular"` | Extruded isosceles triangle, base 37.60 mm, height 29.38 mm |
-| `"hexagonal"` | Extruded regular hexagon, side 17.0 mm |
-| `"fshaped"` | Boolean union of vertical bar + two horizontal bars |
+| "circular" | Cylinder, R = 17.0 mm |
+| "square" | Brick, S = 29.38 mm |
+| "triangular" | Extruded isosceles triangle, base 37.60 mm, height 29.38 mm |
+| "hexagonal" | Extruded regular hexagon, side 17.0 mm |
+| "fshaped" | Boolean union of vertical bar + two horizontal bars |
 
-- Annealed-copper conductors (finite conductivity); permittivity `Eps` exposed for FR-4 tolerance sweeps
+- Annealed-copper conductors (finite conductivity); permittivity Eps exposed for FR-4 tolerance sweeps
 - Hexahedral mesh at 20 steps/wavelength, adaptive refinement, expanded-open boundaries, 6·Hs waveguide port
-- Each shape defines just two feed expressions — `Ey` (facing edge) and `Fx` (feed centre)
-- Solves, then exports the sweep to `s11.s1p` for `python -m antenna ingest`
+- Each shape defines just two feed expressions — Ey (facing edge) and Fx (feed centre)
+- Solves, then exports the sweep to s11.s1p for python -m antenna ingest
 
 ## Fabrication and Measurement
 
@@ -150,19 +150,19 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 | Module | What it does |
 |---|---|
-| `metrics.py` | Exact S11, reflection coefficient, and VSWR identities; bandwidth from band edges |
-| `design.py` | Shape-correct resonance equations (Balanis, Garg) and patch footprint areas |
-| `fom.py` | Area-normalised gain and gain-bandwidth product |
-| `check.py` | Physics validator wired into CI |
-| `tables.py` | Renders and injects every README table between marker comments |
-| `touchstone.py` | Minimal `.s1p` reader (DB, MA, RI) for VNA and CST sweeps |
-| `plots.py` | Publication-ready charts from the canonical data |
+| metrics.py | Exact S11, reflection coefficient, and VSWR identities; bandwidth from band edges |
+| design.py | Shape-correct resonance equations (Balanis, Garg) and patch footprint areas |
+| fom.py | Area-normalised gain and gain-bandwidth product |
+| check.py | Physics validator wired into CI |
+| tables.py | Renders and injects every README table between marker comments |
+| touchstone.py | Minimal .s1p reader (DB, MA, RI) for VNA and CST sweeps |
+| plots.py | Publication-ready charts from the canonical data |
 
 ## Known Limitations
 
-- Results tables come from the original PEC simulations; the copper macro now exports `s11.s1p` to regenerate them from real sweeps
+- Results tables come from the original PEC simulations; the copper macro now exports s11.s1p to regenerate them from real sweeps
 - Measured S11 and VSWR disagree slightly in all five rows (single sample per design); CI flags each until raw VNA traces land
-- Four of five patches resonate below 2.45 GHz, mixing shape with detuning; `python -m antenna synth` gives corrected dimensions
+- Four of five patches resonate below 2.45 GHz, mixing shape with detuning; python -m antenna synth gives corrected dimensions
 
 ## Applications
 

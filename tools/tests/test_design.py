@@ -26,8 +26,17 @@ def test_hexagon_equivalent_radius_smaller_than_side():
 
 def test_synth_inverts_to_target():
     for key, dims in [("circular", {"R": 17.0}), ("square", {"S": 29.38}),
-                      ("triangular", {"Tb": 37.6, "Th": 29.38}), ("hexagonal", {"Ha": 17.0})]:
+                      ("triangular", {"Tb": 37.6, "Th": 29.38}), ("hexagonal", {"Ha": 17.0}),
+                      ("fshaped", {"W": 37.6, "L": 29.38, "Vw": 10, "Bh": 8, "Sh": 3, "Mw": 25})]:
         primary = design.PRIMARY_DIMENSION[key]
         d = design.synthesize_dimension(key, dims, 4.4, 1.4, 2.45)
         trial = dict(dims, **{primary: d})
         assert abs(design.resonant_frequency(key, trial, 4.4, 1.4) - 2.45) < 1e-3, key
+
+
+def test_synth_rejects_unreachable_target():
+    import pytest
+    with pytest.raises(ValueError):
+        design.synthesize_dimension("circular", {"R": 17.0}, 4.4, 1.4, 200.0)
+    with pytest.raises(ValueError):
+        design.synthesize_dimension("bowtie", {"R": 17.0}, 4.4, 1.4, 2.45)

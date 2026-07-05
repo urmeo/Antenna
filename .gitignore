@@ -7,6 +7,7 @@ Desktop.ini
 # CST Studio Suite
 *.cst
 *.cstlog
+*.s1p
 Result/
 Model/
 Cache/
@@ -24,7 +25,10 @@ __pycache__/
 *.pyc
 *.egg-info/
 .pytest_cache/
+.venv/
+.coverage
 build/
+dist/
 
 # Local tooling
 .claude/

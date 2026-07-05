@@ -27,6 +27,8 @@ def s11_db_from_vswr(vswr: float) -> float:
     """Return loss (dB) implied by a VSWR reading."""
     if vswr <= 1.0:
         return float("-inf")
+    if math.isinf(vswr):
+        return 0.0
     gamma = (vswr - 1.0) / (vswr + 1.0)
     return 20.0 * math.log10(gamma)
 

@@ -6,9 +6,14 @@ build-backend = "setuptools.build_meta"
 name = "antenna-tools"
 version = "0.1.0"
 description = "Analysis toolkit for the 2.45 GHz microstrip patch antenna study"
+readme = "README.md"
+authors = [{name = "Urme Bose"}]
 license = {text = "MIT"}
 requires-python = ">=3.9"
 dependencies = []
+
+[project.urls]
+Repository = "https://github.com/urme-b/Antenna"
 
 [project.optional-dependencies]
 plots = ["matplotlib>=3.5"]
@@ -20,6 +25,9 @@ antenna = "antenna.__main__:main"
 [tool.setuptools.packages.find]
 where = ["tools"]
 include = ["antenna*"]
+
+[tool.setuptools.package-data]
+antenna = ["data/*.json"]
 
 [tool.pytest.ini_options]
 pythonpath = ["tools"]

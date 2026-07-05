@@ -24,8 +24,7 @@ Sub Main
     CreatePort
     AddMonitors
     ConfigureSolver
-    RunSolver        ' solve, then write s11.s1p (comment out to build the model only)
-    ExportS11
+    SolveAndExport   ' comment out to build the model only
 End Sub
 
 ' ---- Parameters ----------------------------------------------------
@@ -303,14 +302,15 @@ Sub ConfigureSolver
 End Sub
 
 ' ---- Solve and export ----------------------------------------------
-' RunSolver runs the transient solver; ExportS11 writes the reflection
-' sweep to s11.s1p, which `python -m antenna ingest` reads back.
+' Runs the transient solver, then writes the reflection sweep to
+' s11.s1p, which `python -m antenna ingest` reads back.
 
-Sub RunSolver
-    Solver.Start
-End Sub
+Sub SolveAndExport
+    If Not Solver.Start Then
+        ReportError "Solver failed; no S-parameters to export."
+        Exit Sub
+    End If
 
-Sub ExportS11
     SelectTreeItem "1D Results\S-Parameters"
     With TOUCHSTONE
         .Reset
@@ -330,5 +330,7 @@ Sub ResetModel
     Port.Delete "1"
     Material.Delete "FR4"
     Material.Delete "Copper"
+    Monitor.Delete "farfield (f=Fc)"
+    Monitor.Delete "e-field (f=Fc)"
     On Error GoTo 0
 End Sub

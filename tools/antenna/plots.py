@@ -61,6 +61,8 @@ def overview(out_dir: str, ds: Optional[Dataset] = None) -> List[str]:
 def s11_overlay(s1p_paths: List[str], out_path: str, labels: Optional[List[str]] = None) -> str:
     from .touchstone import read_s1p
     plt = _pyplot()
+    if labels and len(labels) != len(s1p_paths):
+        raise ValueError("got %d labels for %d sweeps" % (len(labels), len(s1p_paths)))
     labels = labels or [os.path.splitext(os.path.basename(p))[0] for p in s1p_paths]
     fig, ax = plt.subplots(figsize=(8, 4.5))
     for path, label in zip(s1p_paths, labels):

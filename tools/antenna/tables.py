@@ -113,7 +113,7 @@ def inject(readme_path: str, ds: "Dataset | None" = None) -> List[str]:
     """Replace each marked block in the README. Returns the names updated."""
     ds = ds or load()
     with open(readme_path, "r", encoding="utf-8") as fh:
-        text = fh.read()
+        original = text = fh.read()
 
     updated: List[str] = []
     for name, markdown in render_all(ds).items():
@@ -125,6 +125,7 @@ def inject(readme_path: str, ds: "Dataset | None" = None) -> List[str]:
             text = pattern.sub(lambda mo: mo.group(1) + markdown + mo.group(2), text)
             updated.append(name)
 
-    with open(readme_path, "w", encoding="utf-8") as fh:
-        fh.write(text)
+    if updated and text != original:
+        with open(readme_path, "w", encoding="utf-8") as fh:
+            fh.write(text)
     return updated

@@ -63,8 +63,10 @@ def read_s1p(path: str) -> Sweep:
                 continue
             parts = line.split()
             if len(parts) < 3:
-                continue
+                raise ValueError("malformed data line in %s: %r" % (path, line))
             freqs.append(float(parts[0]) * freq_scale / 1e9)
             s11.append(_to_db(float(parts[1]), float(parts[2]), fmt))
 
+    if not freqs:
+        raise ValueError("no data points in %s" % path)
     return Sweep(freqs, s11)

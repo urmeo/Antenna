@@ -110,10 +110,10 @@ Set PatchShape in Main and run — [patch-antenna.bas](cst/patch-antenna.bas) bu
 | "hexagonal" | Extruded regular hexagon, side 17.0 mm |
 | "fshaped" | Boolean union of vertical bar + two horizontal bars |
 
-- Annealed-copper conductors (finite conductivity); permittivity Eps exposed for FR-4 tolerance sweeps
-- Hexahedral mesh at 20 steps/wavelength, adaptive refinement, expanded-open boundaries, 6·Hs waveguide port
-- Each shape defines just two feed expressions — Ey (facing edge) and Fx (feed centre)
-- Solves, then exports the sweep to s11.s1p for python -m antenna ingest
+- Annealed-copper conductors; Eps exposed for FR-4 tolerance sweeps
+- Hex mesh, adaptive refinement, open boundaries, 6·Hs port
+- Two feed expressions per shape: Ey (edge) and Fx (centre)
+- Exports the solved sweep to s11.s1p for antenna ingest
 
 ## Fabrication and Measurement
 
@@ -146,7 +146,7 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 
 ## Analysis Toolkit
 
-Every number above is a computed view of [results.json](tools/data/results.json) — tables cannot drift from the data, or from each other.
+Every number above is a computed view of [results.json](tools/antenna/data/results.json) — tables cannot drift from the data, or from each other.
 
 | Module | What it does&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
 |---|---|
@@ -161,8 +161,8 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 ## Known Limitations
 
 - Simulation tables use the earlier PEC model — rerun the copper macro to refresh them
-- Measured S11/VSWR pairs disagree slightly; single sample per design, flagged in CI
-- Four of five patches resonate below target; antenna synth gives corrected dimensions
+- Measured S11/VSWR pairs and three stored bandwidths disagree slightly with their own sweep data; single sample per design, all flagged in CI
+- Most patches are detuned from 2.45 GHz — only the circular patch's −10 dB band brackets the target; antenna synth gives corrected dimensions
 
 ## Applications
 

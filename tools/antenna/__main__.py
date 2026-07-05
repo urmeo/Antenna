@@ -20,6 +20,9 @@ def _cmd_check(args: argparse.Namespace) -> int:
 
 def _cmd_tables(args: argparse.Namespace) -> int:
     ds = load(args.data)
+    if args.write and not os.path.isfile(args.readme):
+        print("README not found at %s — pass --readme" % args.readme)
+        return 1
     if args.write:
         updated = tables_mod.inject(args.readme, ds)
         print("Updated tables in %s: %s" % (args.readme, ", ".join(updated) or "(none)"))
@@ -79,26 +82,33 @@ def _cmd_plot(args: argparse.Namespace) -> int:
 
 
 def main(argv: "list[str] | None" = None) -> int:
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--data", default=None, help="path to results.json")
+
     parser = argparse.ArgumentParser(prog="antenna", description=__doc__)
-    parser.add_argument("--data", default=None, help="path to results.json")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    sub.add_parser("check", help="validate results against the physics").set_defaults(func=_cmd_check)
+    sub.add_parser("check", parents=[common],
+                   help="validate results against the physics").set_defaults(func=_cmd_check)
 
-    p_tables = sub.add_parser("tables", help="render or write the README tables")
+    p_tables = sub.add_parser("tables", parents=[common], help="render or write the README tables")
     p_tables.add_argument("--write", action="store_true", help="inject into the README")
     p_tables.add_argument("--readme", default=_README)
     p_tables.set_defaults(func=_cmd_tables)
 
-    sub.add_parser("design", help="closed-form resonance per geometry").set_defaults(func=_cmd_design)
+    sub.add_parser("design", parents=[common],
+                   help="closed-form resonance per geometry").set_defaults(func=_cmd_design)
 
-    sub.add_parser("synth", help="dimension to resonate at the design frequency").set_defaults(func=_cmd_synth)
+    sub.add_parser("synth", parents=[common],
+                   help="dimension to resonate at the design frequency").set_defaults(func=_cmd_synth)
 
-    p_ingest = sub.add_parser("ingest", help="resonance/VSWR/bandwidth from Touchstone sweeps")
+    p_ingest = sub.add_parser("ingest", parents=[common],
+                              help="resonance/VSWR/bandwidth from Touchstone sweeps")
     p_ingest.add_argument("s1p", nargs="+", help="Touchstone .s1p files")
     p_ingest.set_defaults(func=_cmd_ingest)
 
-    p_plot = sub.add_parser("plot", help="write summary plots (and Touchstone overlays)")
+    p_plot = sub.add_parser("plot", parents=[common],
+                            help="write summary plots (and Touchstone overlays)")
     p_plot.add_argument("--out", default="build/plots")
     p_plot.add_argument("--s1p", nargs="*", help="Touchstone .s1p files to overlay")
     p_plot.set_defaults(func=_cmd_plot)

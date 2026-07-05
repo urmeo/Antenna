@@ -17,6 +17,16 @@ def test_no_hard_errors_in_canonical_data():
 
 
 def test_checker_flags_measurement_discrepancy():
+    # Characterizes the current dataset: all five measured rows disagree with
+    # their own S11. Update this count as raw VNA traces get verified.
     ds = load()
     warnings = [i for i in consistency_issues(ds) if i.level == "warning" and i.field == "meas VSWR"]
-    assert len(warnings) == 5  # every measured row currently disagrees with its S11
+    assert len(warnings) == 5
+
+
+def test_unacknowledged_bandwidth_error_fails_the_build():
+    ds = load()
+    sim = ds.geometries[0].simulation  # circular: bandwidth currently consistent
+    sim.bandwidth_pct = 99.0
+    levels = [i.level for i in consistency_issues(ds) if i.field == "bandwidth" and i.geometry == "Circular"]
+    assert levels == ["error"]

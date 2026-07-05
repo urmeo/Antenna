@@ -21,3 +21,4 @@ def test_bandwidth_from_edges():
 def test_total_reflection_is_infinite():
     assert metrics.vswr_from_s11_db(0.0) == float("inf")
     assert metrics.s11_db_from_vswr(1.0) == float("-inf")
+    assert metrics.s11_db_from_vswr(float("inf")) == 0.0

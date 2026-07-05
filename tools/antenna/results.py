@@ -2,11 +2,9 @@
 from __future__ import annotations
 
 import json
-import os
 from dataclasses import dataclass
+from importlib.resources import files
 from typing import Dict, List, Optional
-
-_DEFAULT_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "results.json")
 
 
 @dataclass
@@ -27,6 +25,7 @@ class Simulation:
     band_edges_ghz: List[float]
     main_lobe_db: float
     side_lobe_db: float
+    bandwidth_pending: bool = False  # stored % predates the band edges; awaiting re-simulation
 
 
 @dataclass
@@ -57,8 +56,11 @@ class Dataset:
 
 
 def load(path: "str | None" = None) -> Dataset:
-    with open(path or _DEFAULT_PATH, "r", encoding="utf-8") as fh:
-        raw = json.load(fh)
+    if path:
+        with open(path, "r", encoding="utf-8") as fh:
+            raw = json.load(fh)
+    else:
+        raw = json.loads(files("antenna").joinpath("data/results.json").read_text(encoding="utf-8"))
 
     meta = raw["meta"]
     geometries = [

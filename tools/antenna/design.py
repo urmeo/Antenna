@@ -130,12 +130,19 @@ def synthesize_dimension(key: str, dims: Dict[str, float], er: float, h_mm: floa
     Inverts :func:`resonant_frequency` by bisection — resonance falls
     monotonically as the patch grows, so the root is unique.
     """
+    if key not in PRIMARY_DIMENSION:
+        raise ValueError("unknown geometry: %s" % key)
     primary = PRIMARY_DIMENSION[key]
     lo, hi = 1.0, 200.0
-    for _ in range(200):
+
+    def freq_at(dim_mm: float) -> float:
+        return resonant_frequency(key, dict(dims, **{primary: dim_mm}), er, h_mm)
+
+    if not freq_at(hi) <= target_ghz <= freq_at(lo):
+        raise ValueError("target %.3f GHz outside the synthesizable range for %s" % (target_ghz, key))
+    for _ in range(60):
         mid = 0.5 * (lo + hi)
-        trial = dict(dims, **{primary: mid})
-        if resonant_frequency(key, trial, er, h_mm) > target_ghz:
+        if freq_at(mid) > target_ghz:
             lo = mid
         else:
             hi = mid

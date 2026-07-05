@@ -48,7 +48,7 @@ def consistency_issues(ds: Dataset) -> List[Issue]:
         bw_center = metrics.fractional_bandwidth_pct(f_lo, f_hi)
         bw_design = metrics.fractional_bandwidth_pct(f_lo, f_hi, reference=fc)
         if min(abs(bw_center - sim.bandwidth_pct), abs(bw_design - sim.bandwidth_pct)) > BANDWIDTH_TOL_PCT:
-            issues.append(Issue("warning", g.name, "bandwidth",
+            issues.append(Issue("warning" if sim.bandwidth_pending else "error", g.name, "bandwidth",
                 "edges %.4f-%.4f GHz give %.2f%% (or %.2f%% vs %.2f GHz), table says %.2f%%"
                 % (f_lo, f_hi, bw_center, bw_design, fc, sim.bandwidth_pct)))
 
@@ -83,7 +83,6 @@ def run(path: "str | None" = None) -> int:
     for issue in sorted(issues, key=lambda i: (order[i.level], i.geometry)):
         print("[%-7s] %-11s %-11s %s" % (issue.level.upper(), issue.geometry, issue.field, issue.message))
 
-    errors = sum(1 for i in issues if i.level == "error")
-    warnings = sum(1 for i in issues if i.level == "warning")
-    print("\n%d error(s), %d warning(s)." % (errors, warnings))
-    return 1 if errors else 0
+    counts = {level: sum(1 for i in issues if i.level == level) for level in order}
+    print("\n%(error)d error(s), %(warning)d warning(s), %(info)d info." % counts)
+    return 1 if counts["error"] else 0

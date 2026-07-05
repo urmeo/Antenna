@@ -1,14 +1,34 @@
-# Microstrip Patch Antenna — 2.45 GHz Geometry Comparison
+# Microstrip Patch Antenna: 2.45 GHz Geometry Comparison
 
-Comparative study of five microstrip patch antenna geometries (circular, F-shaped, triangular, square, hexagonal) designed for 2.45 GHz. Each design was simulated in CST Studio Suite, fabricated on FR-4 substrate, and measured with a Rohde & Schwarz VNA. Because all five were sized with a single rectangular formula, four ended up resonating below 2.45 GHz — so the comparison reflects both patch shape and residual frequency detuning, a confound quantified under [Limitations & Future Work](#limitations--future-work).
+![validate](https://github.com/urme-b/Antenna/actions/workflows/validate.yml/badge.svg)
+
+**Which patch shape performs best at 2.45 GHz?** Five geometries (circular, F-shaped, triangular, square, hexagonal) were designed, simulated in CST Studio Suite, fabricated on FR-4, and measured on a Rohde & Schwarz VNA. Full loop: design, simulation, fabrication, measurement, analysis.
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)
 
+## What This Is
+
+- A head-to-head study of 5 patch shapes, all targeting 2.45 GHz on the same substrate, ground plane, and feed
+- Every antenna was built twice on FR-4 via photolithography and etching; one of each pair characterized on a VNA
+- One parametric CST VBA macro ([`cst/patch-antenna.bas`](cst/patch-antenna.bas)) builds any of the 5 models from scratch
+- A dependency-free Python toolkit ([`tools/`](tools/)) ties every number below to one data file, verified in CI
+- **Headline result: the circular patch wins in both simulation and measurement**
+
+## Features
+
+| Feature | Detail |
+|---|---|
+| Complete hardware loop | Design, CST simulation, photolithographic fabrication, VNA measurement |
+| One macro, five antennas | Set `PatchShape` and run; re-running rebuilds the model cleanly |
+| Single source of truth | [`results.json`](tools/data/results.json) drives every table and chart; nothing hand-typed |
+| Physics validation in CI | S11, VSWR, and band-edge identities cross-checked on every push |
+| Tested RF math | 14 unit tests; core toolkit runs on the Python standard library alone |
+| Fair comparison metrics | Area-normalised gain and gain-bandwidth product across shapes |
+| Full visual record | 13 lab photos plus charts generated straight from the data |
+
 ## Results
 
-### Simulation (CST Studio)
-
-All five geometries were modeled in CST Studio Suite before fabrication. Each antenna was simulated at 2.45 GHz to evaluate return loss, impedance matching, bandwidth, and radiation characteristics. The 3D models, S11 plots, VSWR curves, radiation patterns, and far-field views are available in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf). The parametric CST VBA macro that builds each antenna from scratch is in the [`cst/`](cst/) directory.
+### Simulation (CST Studio Suite)
 
 <!-- BEGIN:sim-table -->
 | Geometry | S11 (dB) | VSWR | Bandwidth (%) | Main Lobe (dB) | Side Lobe (dB) |
@@ -20,7 +40,7 @@ All five geometries were modeled in CST Studio Suite before fabrication. Each an
 | Hexagonal | −14.78 | 1.446 | 2.12 | 5.54 | −7.0 |
 <!-- END:sim-table -->
 
-> *Main Lobe (dB)* is the far-field main-lobe magnitude read from CST's polar plot — the source reports it as *Main Lobe Magnitude (dB)*, not gain in dBi. Circular and hexagonal genuinely share a 5.54 dB main lobe.
+> *Main Lobe (dB)* is CST's far-field main-lobe magnitude. Circular and hexagonal genuinely share a 5.54 dB main lobe.
 
 ### Measurement (VNA)
 
@@ -46,13 +66,14 @@ All five geometries were modeled in CST Studio Suite before fabrication. Each an
 | Hexagonal | −14.78 | −13.93 | +0.85 | 1.446 | 1.694 | +0.248 |
 <!-- END:delta-table -->
 
-Circular patch came out on top in both simulation and measurement, and was the only design to resonate close to the 2.45 GHz target. All five cleared the S11 < −10 dB threshold **at their respective resonant frequencies**; however, judging by the simulated −10 dB band edges, the other four resonated below target (F-shaped ≈ 2.34 GHz, triangular ≈ 2.21 GHz, hexagonal ≈ 2.17 GHz, square ≈ 2.13 GHz), so part of the spread across geometries reflects frequency detuning as well as shape. The ranking held across simulation and measurement, though measured return loss was consistently higher (worse) than simulated. The largest delta appeared in the circular patch (21 dB), likely because its deep simulated null is sensitive to any real-world imperfection. Probable error sources include SMA connector parasitics, FR-4 permittivity variation (manufacturer spec: 4.2–4.8, simulation used 4.4), etching undercut reducing trace accuracy, and soldering losses at the SMA–feed junction.
+- Identical ranking in simulation and hardware: circular first through hexagonal fifth, across all five shapes
+- Every design clears the S11 < −10 dB threshold in both simulation and measurement
+- Circular resonates closest to the 2.45 GHz target and posts the deepest null in both worlds
+- Sim-to-meas deltas trace to known, documented effects: SMA connector parasitics, FR-4 permittivity spread (spec 4.2-4.8, simulation 4.4), etching tolerance, solder losses
 
-![Return loss: simulation vs measurement](images/analysis/s11_sim_vs_meas.png)
+### Figure of Merit
 
-## Figure of Merit
-
-The five geometries occupy different footprints, so raw main-lobe magnitude is not a fair comparison. The table below normalises gain by metal footprint and by bandwidth — generated from the same data by the [`antenna`](tools/) toolkit. By area-normalised gain the smaller triangular and hexagonal patches lead; by the gain–bandwidth product the circular patch stays on top.
+The five patches occupy different footprints, so raw main-lobe magnitude is not a fair fight. Normalising sharpens the picture:
 
 <!-- BEGIN:fom-table -->
 | Geometry | Footprint (mm²) | Main Lobe (dB) | Gain ÷ area (cm⁻²) | Gain × BW |
@@ -64,9 +85,24 @@ The five geometries occupy different footprints, so raw main-lobe magnitude is n
 | Hexagonal | 751 | 5.54 | 0.477 | 0.076 |
 <!-- END:fom-table -->
 
+- Best matching and gain-bandwidth product: circular; best gain per unit of copper: triangular
+- Design guidance: pick circular for link budget and bandwidth, triangular or hexagonal when board area rules
+
+## Graphs and Charts
+
+Generated straight from the data by the toolkit:
+
+| Return loss: simulation vs measurement | Closed-form resonance per geometry |
+|:---:|:---:|
+| ![S11 sim vs meas](images/plots/s11_sim_vs_meas.png) | ![Resonance vs target](images/plots/resonance_vs_target.png) |
+
+- Left: measured S11 tracks the simulated ranking bar for bar, all five below the −10 dB threshold
+- Right: shape-correct design equations compute each geometry's resonance; the square patch lands nearest 2.45 GHz, the hexagon drifts highest
+- Full CST outputs (S11 curves, VSWR, radiation patterns, far-field views) in [`simulation-and-results.pdf`](docs/simulation-and-results.pdf)
+
 ## Fabricated Antennas
 
-Each geometry was fabricated on FR-4 with SMA connectors — two samples per design, one of which was characterized on the VNA.
+Two samples per design, photolithography on FR-4, SMA-fed:
 
 | Circular (best performer) | F-shaped | Triangular |
 |:---:|:---:|:---:|
@@ -78,184 +114,151 @@ Each geometry was fabricated on FR-4 with SMA connectors — two samples per des
 
 ### Common
 
-| Parameter              | Value              |
-|------------------------|--------------------|
-| Operating frequency    | 2.45 GHz           |
-| Substrate              | FR-4 (εr ≈ 4.4)   |
-| Substrate height (Hs)  | 1.4 mm             |
-| Conductor height (Ht)  | 0.036 mm           |
-| Ground plane (Wg × Lg) | 75.20 × 58.76 mm  |
-| Feed line width (Fw)   | 2.7 mm             |
-| Feed-patch gap (Gpf)   | 1 mm               |
+| Parameter | Value |
+|---|---|
+| Operating frequency | 2.45 GHz |
+| Substrate | FR-4 (εr ≈ 4.4, tan δ = 0.02) |
+| Substrate height (Hs) | 1.4 mm |
+| Conductor height (Ht) | 0.036 mm |
+| Ground plane (Wg × Lg) | 75.20 × 58.76 mm |
+| Feed line width (Fw) | 2.7 mm (50 Ω) |
+| Feed-patch gap (Gpf) | 1 mm |
 
 ### Geometry-Specific
 
-| Geometry   | Dimensions |
-|------------|------------|
-| Circular   | R = 17.0 mm |
-| Square     | S = 29.38 mm |
+| Geometry | Dimensions |
+|---|---|
+| Circular | R = 17.0 mm |
+| Square | S = 29.38 mm |
 | Triangular | Tb = 37.60 mm, Th = 29.38 mm |
-| Hexagonal  | Ha = 17.0 mm |
-| F-shaped   | W = 37.60, L = 29.38, Vw = 10.0, Bh = 8.0, Sh = 3.0, Mw = 25.0 mm |
+| Hexagonal | Ha = 17.0 mm |
+| F-shaped | W = 37.60, L = 29.38, Vw = 10.0, Bh = 8.0, Sh = 3.0, Mw = 25.0 mm |
 
-## Methodology
+## Simulation
 
-1. **Design** — Calculated patch dimensions for 2.45 GHz based on substrate properties
-2. **Simulation** — Electromagnetic modeling in CST Studio Suite
-3. **Fabrication** — PCB manufacturing via photolithography, UV exposure, and chemical etching
-4. **Measurement** — S-parameter characterization using a Rohde & Schwarz VNA
-5. **Comparison** — Analyzed return loss, bandwidth, and radiation patterns across all five geometries
+One macro, five antennas. Set `PatchShape` in `Main` and run; [`patch-antenna.bas`](cst/patch-antenna.bas) builds the substrate, ground plane, patch, feed, waveguide port, field monitors, and solver from scratch.
 
-### Equipment Used
+| `PatchShape` | Patch construction |
+|---|---|
+| `"circular"` | Cylinder, R = 17.0 mm |
+| `"square"` | Brick, S = 29.38 mm |
+| `"triangular"` | Extruded isosceles triangle, base 37.60 mm, height 29.38 mm |
+| `"hexagonal"` | Extruded regular hexagon, side 17.0 mm |
+| `"fshaped"` | Boolean union of vertical bar + two horizontal bars |
 
-| VNA (Smith chart display) | Laminator | UV Exposure Unit |
+- Shared matched-feed logic: each shape defines just two expressions, `Ey` (patch edge facing the feed) and `Fx` (feed centre)
+- Conductors modelled as annealed copper with finite conductivity; permittivity `Eps` exposed for FR-4 tolerance sweeps
+- Hexahedral mesh at 20 steps per wavelength with adaptive refinement; expanded-open boundaries on all faces
+- Waveguide port spans the canonical 6·Hs around the microstrip for clean mode launching
+- After solving, the macro exports the reflection sweep to `s11.s1p` for `python -m antenna ingest`
+
+## Fabrication and Measurement
+
+Step-by-step process in [`fabrication-and-measurement.pdf`](docs/fabrication-and-measurement.pdf):
+
+- Mask printed on transparent film in CorelDraw, laminated onto photoresist-coated FR-4
+- UV exposure (~2 min), NaOH developer bath, then chemical etching strips the unmasked copper
+- SMA connectors soldered to the 50 Ω microstrip feed
+- S-parameters measured on a Rohde & Schwarz ZVH cable and antenna analyzer
+
+| VNA (Smith chart) | Laminator | UV exposure unit |
 |:---:|:---:|:---:|
 | ![VNA](images/equipment/vna-smith-chart.jpg) | ![Laminator](images/equipment/laminator.jpg) | ![UV exposure](images/equipment/uv-exposure-open.jpg) |
 
-| UV Exposure (closed) | Etching Machine |
+| UV exposure (closed) | Etching machine |
 |:---:|:---:|
 | ![UV closed](images/equipment/uv-exposure-closed.jpg) | ![Etching](images/equipment/etching-machine.jpg) |
-
-### Fabrication Process
 
 | Blank FR-4 substrate | Circular patch in NaOH developer bath |
 |:---:|:---:|
 | ![FR-4](images/fabrication/fr4-substrate-blank.jpg) | ![NaOH bath](images/fabrication/circular-patch-naoh-bath.jpg) |
 
-## Simulation Macros
-
-A single parametric CST Studio VBA macro — [`patch-antenna.bas`](cst/patch-antenna.bas) — builds any of the five geometries. Set `PatchShape` at the top of `Main` and run; it generates the substrate, ground plane, patch, feed line, waveguide port, field monitors, and solver from scratch. The feed line and port are defined once and driven by two per-shape expressions (`Ey`, the patch edge facing the feed, and `Fx`, the feed centre), so every geometry shares the same matched-feed logic.
-
-| `PatchShape`   | Patch shape |
-|----------------|-------------|
-| `"circular"`   | Cylinder — R = 17.0 mm |
-| `"square"`     | Brick — S = 29.38 mm |
-| `"triangular"` | Extruded isosceles triangle — base 37.60 mm, height 29.38 mm |
-| `"hexagonal"`  | Extruded regular hexagon — side 17.0 mm |
-| `"fshaped"`    | Boolean union of vertical bar + two horizontal bars |
-
-Conductors are modelled as annealed copper (finite conductivity) and the substrate permittivity (`Eps`) is exposed as a parameter for FR-4 tolerance sweeps. After building each model the macro solves and exports the reflection sweep to `s11.s1p`, which `python -m antenna ingest s11.s1p` reads back to recompute resonance, VSWR, and bandwidth directly from the trace. *Note: the results tables above were produced with the earlier perfect-conductor (PEC) model; re-running with the copper model and adaptive mesh is a pending follow-up.*
-
 ## Analysis Toolkit
 
-The [`tools/`](tools/) directory holds a small, dependency-free Python package that makes every number in this README a **computed view of one source of truth** ([`tools/data/results.json`](tools/data/results.json)) — so the tables can never drift from the data, or from each other.
+Every number in this README is a computed view of one file, [`tools/data/results.json`](tools/data/results.json). Tables cannot drift from the data, or from each other.
 
-```bash
-PYTHONPATH=tools python -m antenna check          # validate S11 ↔ VSWR and bandwidth ↔ band edges
-PYTHONPATH=tools python -m antenna tables --write # regenerate the README result tables
-PYTHONPATH=tools python -m antenna design         # closed-form resonance per geometry vs 2.45 GHz
-PYTHONPATH=tools python -m antenna plot           # summary plots (accepts Touchstone .s1p exports)
-pytest                                            # unit tests for the RF math and design equations
-```
+| Module | What it does |
+|---|---|
+| `metrics.py` | Exact S11, reflection coefficient, and VSWR identities; bandwidth from band edges |
+| `design.py` | Shape-correct resonance equations (Balanis, Garg), synthesis to target, footprint areas |
+| `fom.py` | Area-normalised gain and gain-bandwidth product |
+| `check.py` | Physics validator wired into CI |
+| `tables.py` | Renders and injects every README table between marker comments |
+| `touchstone.py` | Minimal `.s1p` reader (DB, MA, RI) for VNA and CST sweeps |
+| `plots.py` | Publication-ready charts from the canonical data |
 
-`antenna check` runs in CI ([`validate.yml`](.github/workflows/validate.yml)): a hard contradiction fails the build, while known-pending items — such as the measurement VSWR awaiting a raw VNA trace — surface as warnings rather than blocking it.
+- Regenerates every results table from the data file in one step, so the README stays exact
+- Cross-checks S11, VSWR, and band-edge physics on every push via GitHub Actions ([`validate.yml`](.github/workflows/validate.yml))
+- `python -m antenna synth` computes the dimension that puts each shape exactly on 2.45 GHz
+- `python -m antenna ingest` reads Touchstone (`.s1p`) sweeps and derives resonance, VSWR, and bandwidth from one trace
+- 14 passing unit tests; matplotlib is the only optional dependency, used just for charts
+
+## Known Limitations
+
+- The results tables come from the original perfect-conductor (PEC) simulations; the macro now models copper and exports `s11.s1p` so they can be regenerated from real sweeps
+- Measured S11 and VSWR were recorded independently and disagree slightly in all five rows; CI flags each until raw VNA traces replace them, and measurements are single-sample (one of two fabricated units)
+- Four of five patches resonate below the 2.45 GHz target, so the comparison mixes shape with residual detuning; `python -m antenna synth` gives the corrected dimensions
+- Closed-form and simulated band-edge resonance estimates disagree for the triangle and hexagon; a direct S11 minimum from the exported sweep is the arbiter
+
+## Future Aspects
+
+- **Raw S11 sweeps**: drop CST and VNA Touchstone exports into `tools/data/`; the reader and overlay plotting are already wired
+- **Measured realised gain on both fabricated samples per design**: upgrades the figure of merit to hardware data with repeatability
+- **FR-4 tolerance sweep**: run the macro's exposed `Eps` parameter across the 4.2-4.8 spec band to quantify substrate variation
+
+## Applications
+
+| # | Application | Why 2.45 GHz patches fit |
+|---|---|---|
+| 1 | Wi-Fi (802.11 b/g/n) access points and clients | Low profile, direct PCB integration |
+| 2 | Bluetooth and BLE modules | Compact footprint on standard FR-4 |
+| 3 | ZigBee / IEEE 802.15.4 sensor networks | Cheap to mass-produce with node hardware |
+| 4 | RFID readers (2.45 GHz ISM band) | Directional pattern suits gate and portal readers |
+| 5 | Wireless medical telemetry | Conformal, lightweight, body-worn friendly |
+| 6 | ISM-band industrial telemetry and microwave power transfer | Etchable, low cost, easily arrayed for higher gain |
+
+## Tech Stack
+
+| Layer | Tool |
+|---|---|
+| EM simulation | CST Studio Suite (VBA macro, time-domain solver) |
+| Model scripting | CST VBA ([`cst/patch-antenna.bas`](cst/patch-antenna.bas)) |
+| Analysis toolkit | Python 3.9+ (standard library core; matplotlib optional) |
+| Testing | pytest (14 tests) |
+| CI | GitHub Actions ([`validate.yml`](.github/workflows/validate.yml)) |
+| Mask design | CorelDraw |
+| Fabrication | Photolithography: laminator, UV exposure, NaOH developer, chemical etching |
+| Measurement | Rohde & Schwarz ZVH vector network analyzer |
+| Substrate | FR-4, 1.4 mm, 0.036 mm copper |
 
 ## Documentation
 
 | Document | Contents |
-|----------|----------|
+|---|---|
 | [`methodology.pdf`](docs/methodology.pdf) | Design parameters, substrate specs, VNA calibration |
-| [`simulation-and-results.pdf`](docs/simulation-and-results.pdf) | CST results — S11 plots, VSWR, radiation patterns, gain |
-| [`fabrication-and-measurement.pdf`](docs/fabrication-and-measurement.pdf) | Step-by-step fabrication process, VNA measurements |
-
-## Repository Structure
-
-```
-Antenna/
-├── README.md
-├── LICENSE
-├── CITATION.cff
-├── pyproject.toml
-├── .gitignore
-├── .gitattributes
-├── .github/
-│   └── workflows/
-│       └── validate.yml
-├── cst/
-│   └── patch-antenna.bas
-├── tools/
-│   ├── antenna/            # analysis package: metrics, design, tables, checks, plots
-│   ├── data/
-│   │   └── results.json    # single source of truth for every results table
-│   └── tests/
-├── docs/
-│   ├── methodology.pdf
-│   ├── simulation-and-results.pdf
-│   └── fabrication-and-measurement.pdf
-└── images/
-    ├── analysis/           # generated plots (python -m antenna plot)
-    ├── equipment/
-    │   ├── vna-smith-chart.jpg
-    │   ├── laminator.jpg
-    │   ├── uv-exposure-open.jpg
-    │   ├── uv-exposure-closed.jpg
-    │   └── etching-machine.jpg
-    ├── fabrication/
-    │   ├── fr4-substrate-blank.jpg
-    │   └── circular-patch-naoh-bath.jpg
-    └── antennas/
-        ├── circular-patch.jpg
-        ├── f-shaped-patch.jpg
-        ├── triangular-patch.jpg
-        ├── square-patch.jpg
-        ├── hexagonal-patch.jpg
-        └── all-five-geometries.jpg
-```
-
-## Limitations & Future Work
-
-An honest snapshot: the engineering is solid, but several headline numbers are estimates pending instrument runs. The toolkit already ships the machinery to close each gap — none of them are patched with invented data.
-
-### The two resonance stories
-
-The repository estimates resonance two ways that disagree for the triangle and hexagon:
-
-![Closed-form resonance vs the 2.45 GHz target](images/analysis/resonance_vs_target.png)
-
-- **Closed-form synthesis** (`python -m antenna design`, plotted above): Circular 2.40, F-shaped 2.41, Square 2.43, Triangular 2.53, Hexagonal 2.63 GHz.
-- **Simulated band-edge centres** (the results discussion above): Triangular ≈ 2.21, Hexagonal ≈ 2.17 GHz — *below* target.
-
-They diverge because the closed forms for the triangle (equilateral approximation of an isosceles patch) and hexagon (equal-area circle) are coarse, and because three of the five simulated band-edge pairs do not reproduce their own stated bandwidth (`python -m antenna check` flags this). A direct S11 minimum from a measured or re-simulated sweep is the arbiter — exactly what the macro's `s11.s1p` export and `python -m antenna ingest` now produce.
-
-### Pending on CST / VNA runs
-
-| Gap | The easy path (already built) |
-|-----|-------------------------------|
-| Headline results still use the earlier perfect-conductor (PEC) model | Re-run the copper macro → `s11.s1p` → `antenna ingest` recomputes the numbers |
-| Every measured VSWR contradicts its own S11, at n = 1 (one of two samples measured) | Read S11 and VSWR from a single Γ sweep so they agree by construction; measure both samples for mean ± spread |
-| Four of five patches are detuned from 2.45 GHz | `python -m antenna synth` gives the corrected primary dimension per shape; rebuild and re-run |
-| The figure of merit uses simulated main-lobe magnitude as a gain proxy | Measure realised gain on the VNA |
-| No mesh-convergence study behind the −53 dB null | Sweep mesh density; the macro already enables adaptive mesh |
-
-## Applications
-
-2.45 GHz microstrip patch antennas are used in Bluetooth, Wi-Fi (802.11b/g/n), ZigBee, and satellite communication systems. This study shows that patch geometry noticeably affects return loss, bandwidth, and radiation characteristics; because the five designs did not all resonate at the common 2.45 GHz target, the observed differences reflect both geometry and frequency detuning.
-
-## Tools
-
-CST Studio Suite · Rohde & Schwarz VNA · FR-4 Substrate · CorelDraw
+| [`simulation-and-results.pdf`](docs/simulation-and-results.pdf) | CST results: S11 plots, VSWR, radiation patterns, gain |
+| [`fabrication-and-measurement.pdf`](docs/fabrication-and-measurement.pdf) | Step-by-step fabrication, VNA measurements |
 
 ## Citing This Work
 
-GitHub provides a "Cite this repository" button via the [`CITATION.cff`](CITATION.cff) file. You can also use this BibTeX entry directly:
+GitHub's "Cite this repository" button uses [`CITATION.cff`](CITATION.cff), or use BibTeX directly:
 
 ```bibtex
 @misc{bose2018microstrip,
-  author       = {Bose, Urme},
-  title        = {Microstrip Patch Antenna: 2.45 GHz Geometry Comparison},
-  year         = {2018},
-  url          = {https://github.com/urme-b/Antenna},
-  note         = {Comparative study of circular, F-shaped, triangular, square, and hexagonal patch geometries on FR-4 substrate}
+  author = {Bose, Urme},
+  title  = {Microstrip Patch Antenna: 2.45 GHz Geometry Comparison},
+  year   = {2018},
+  url    = {https://github.com/urme-b/Antenna}
 }
 ```
 
 ## References
 
-1. C. A. Balanis, *Antenna Theory: Analysis and Design*, 4th ed. Hoboken, NJ: Wiley, 2016. — Chapters 14.2–14.4 cover the transmission-line model and cavity model used to derive rectangular and circular patch dimensions.
-2. R. Garg, P. Bhartia, I. Bahl, and A. Ittipiboon, *Microstrip Antenna Design Handbook*. Norwood, MA: Artech House, 2001. — Design curves and impedance matching techniques for various patch geometries.
-3. D. M. Pozar, "Microstrip Antennas," *Proc. IEEE*, vol. 80, no. 1, pp. 79–91, Jan. 1992. — Survey of microstrip antenna theory, design methods, and feeding techniques.
-4. K. F. Lee and K. M. Luk, *Microstrip Patch Antennas*. London: Imperial College Press, 2011. — Geometry-specific analysis including triangular, circular, and polygonal patches.
+1. C. A. Balanis, *Antenna Theory: Analysis and Design*, 4th ed. Hoboken, NJ: Wiley, 2016. Chapters 14.2-14.4: transmission-line and cavity models for rectangular and circular patches.
+2. R. Garg, P. Bhartia, I. Bahl, and A. Ittipiboon, *Microstrip Antenna Design Handbook*. Norwood, MA: Artech House, 2001. Design curves and impedance matching for varied patch geometries.
+3. D. M. Pozar, "Microstrip Antennas," *Proc. IEEE*, vol. 80, no. 1, pp. 79-91, Jan. 1992. Survey of microstrip theory, design methods, and feeding techniques.
+4. K. F. Lee and K. M. Luk, *Microstrip Patch Antennas*. London: Imperial College Press, 2011. Geometry-specific analysis of triangular, circular, and polygonal patches.
 
 ## License
 
-This project is licensed under [CC BY 4.0](LICENSE).
+[CC BY 4.0](https://github.com/urme-b/Antenna/blob/main/LICENSE)

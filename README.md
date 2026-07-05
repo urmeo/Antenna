@@ -1,6 +1,6 @@
 # Microstrip Patch Antenna: 2.45 GHz Geometry Comparison
 
-**Which patch shape performs best at 2.45 GHz?** Five geometries — circular, F-shaped, triangular, square, hexagonal — designed, simulated in CST Studio Suite, fabricated on FR-4, measured on a Rohde & Schwarz VNA. **The circular patch wins in both simulation and measurement.**
+**Which patch shape performs best at 2.45 GHz — the ISM band behind Wi-Fi, Bluetooth, and ZigBee?** Five geometries — circular, F-shaped, triangular, square, hexagonal — designed, simulated in CST Studio Suite, fabricated on FR-4, measured on a Rohde & Schwarz VNA. **The circular patch wins in both simulation and measurement.**
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)
 
@@ -160,9 +160,9 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 ## Known Limitations
 
-- Results tables come from the original PEC simulations; the copper macro now exports s11.s1p to regenerate them from real sweeps
-- Measured S11 and VSWR disagree slightly in all five rows (single sample per design); CI flags each until raw VNA traces land
-- Four of five patches resonate below 2.45 GHz, mixing shape with detuning; python -m antenna synth gives corrected dimensions
+- Simulation tables use the earlier PEC model — rerun the copper macro to refresh them
+- Measured S11/VSWR pairs disagree slightly; single sample per design, flagged in CI
+- Four of five patches resonate below target; antenna synth gives corrected dimensions
 
 ## Applications
 

@@ -164,10 +164,9 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 ## Known Limitations
 
-- Results tables come from the original PEC simulations; the macro now models copper and exports `s11.s1p` to regenerate them from real sweeps
-- Measured S11 and VSWR were recorded independently and disagree slightly in all five rows (single sample, one of two units); CI flags each until raw traces land
+- Results tables come from the original PEC simulations; the copper macro now exports `s11.s1p` to regenerate them from real sweeps
+- Measured S11 and VSWR disagree slightly in all five rows (single sample per design); CI flags each until raw VNA traces land
 - Four of five patches resonate below 2.45 GHz, mixing shape with detuning; `python -m antenna synth` gives corrected dimensions
-- Closed-form and simulated band-edge resonance estimates disagree for triangle and hexagon; a direct S11 minimum from the exported sweep is the arbiter
 
 ## Applications
 

@@ -205,4 +205,5 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 ## License
 
-[CC BY 4.0](https://github.com/urme-b/Antenna/blob/main/LICENSE)
+- Code — CST macro and Python toolkit: [MIT](LICENSE)
+- Documentation, images, and data: [CC BY 4.0](LICENSE-CC-BY-4.0)

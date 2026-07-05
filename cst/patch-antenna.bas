@@ -24,6 +24,8 @@ Sub Main
     CreatePort
     AddMonitors
     ConfigureSolver
+    RunSolver        ' solve, then write s11.s1p (comment out to build the model only)
+    ExportS11
 End Sub
 
 ' ---- Parameters ----------------------------------------------------
@@ -297,6 +299,26 @@ Sub ConfigureSolver
         .StimulationMode "All"
         .AutoImpedance "True"
         .MeshAdaption "True"
+    End With
+End Sub
+
+' ---- Solve and export ----------------------------------------------
+' RunSolver runs the transient solver; ExportS11 writes the reflection
+' sweep to s11.s1p, which `python -m antenna ingest` reads back.
+
+Sub RunSolver
+    Solver.Start
+End Sub
+
+Sub ExportS11
+    SelectTreeItem "1D Results\S-Parameters"
+    With TOUCHSTONE
+        .Reset
+        .FileName "s11"
+        .Impedance 50
+        .Renormalize "True"
+        .FrequencyRange "Full"
+        .Write
     End With
 End Sub
 

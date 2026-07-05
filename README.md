@@ -132,7 +132,7 @@ A single parametric CST Studio VBA macro — [`patch-antenna.bas`](cst/patch-ant
 | `"hexagonal"`  | Extruded regular hexagon — side 17.0 mm |
 | `"fshaped"`    | Boolean union of vertical bar + two horizontal bars |
 
-Conductors are modelled as annealed copper (finite conductivity) and the substrate permittivity (`Eps`) is exposed as a parameter for FR-4 tolerance sweeps. *Note: the results tables above were produced with the earlier perfect-conductor (PEC) model; re-running with the copper model and adaptive mesh is a pending follow-up.*
+Conductors are modelled as annealed copper (finite conductivity) and the substrate permittivity (`Eps`) is exposed as a parameter for FR-4 tolerance sweeps. After building each model the macro solves and exports the reflection sweep to `s11.s1p`, which `python -m antenna ingest s11.s1p` reads back to recompute resonance, VSWR, and bandwidth directly from the trace. *Note: the results tables above were produced with the earlier perfect-conductor (PEC) model; re-running with the copper model and adaptive mesh is a pending follow-up.*
 
 ## Analysis Toolkit
 

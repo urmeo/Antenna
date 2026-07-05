@@ -116,3 +116,27 @@ def resonant_frequency(key: str, dims: Dict[str, float], er: float, h_mm: float)
         # The F is a perturbed rectangle; its overall L sets the dominant mode.
         return rectangular_resonant_frequency(dims["L"], dims["W"], er, h_mm)
     raise ValueError("unknown geometry: %s" % key)
+
+
+# Dimension that primarily sets each geometry's resonance (larger -> lower f).
+PRIMARY_DIMENSION = {"circular": "R", "square": "S", "triangular": "Tb",
+                     "hexagonal": "Ha", "fshaped": "L"}
+
+
+def synthesize_dimension(key: str, dims: Dict[str, float], er: float, h_mm: float,
+                         target_ghz: float) -> float:
+    """Solve for the primary dimension (mm) that resonates at ``target_ghz``.
+
+    Inverts :func:`resonant_frequency` by bisection — resonance falls
+    monotonically as the patch grows, so the root is unique.
+    """
+    primary = PRIMARY_DIMENSION[key]
+    lo, hi = 1.0, 200.0
+    for _ in range(200):
+        mid = 0.5 * (lo + hi)
+        trial = dict(dims, **{primary: mid})
+        if resonant_frequency(key, trial, er, h_mm) > target_ghz:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)

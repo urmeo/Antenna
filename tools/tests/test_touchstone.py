@@ -15,3 +15,21 @@ def test_read_s1p_db_format(tmp_path):
     sweep = read_s1p(str(path))
     assert sweep.freqs_ghz == [2.40, 2.45, 2.50]
     assert sweep.s11_db == [-12.0, -28.0, -11.0]
+
+
+def test_resonance_and_band_edges(tmp_path):
+    from antenna.touchstone import band_edges, resonance
+    path = tmp_path / "sweep.s1p"
+    path.write_text(textwrap.dedent("""\
+        # GHz S DB R 50
+        2.30 -6.0 0
+        2.40 -14.0 0
+        2.45 -32.0 0
+        2.50 -13.0 0
+        2.60 -5.0 0
+    """))
+    sweep = read_s1p(str(path))
+    f_res, depth = resonance(sweep)
+    assert f_res == 2.45 and depth == -32.0
+    lo, hi = band_edges(sweep)
+    assert lo == 2.40 and hi == 2.50

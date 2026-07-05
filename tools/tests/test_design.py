@@ -22,3 +22,12 @@ def test_patch_areas():
 
 def test_hexagon_equivalent_radius_smaller_than_side():
     assert design.hexagon_equivalent_radius(17.0) < 17.0
+
+
+def test_synth_inverts_to_target():
+    for key, dims in [("circular", {"R": 17.0}), ("square", {"S": 29.38}),
+                      ("triangular", {"Tb": 37.6, "Th": 29.38}), ("hexagonal", {"Ha": 17.0})]:
+        primary = design.PRIMARY_DIMENSION[key]
+        d = design.synthesize_dimension(key, dims, 4.4, 1.4, 2.45)
+        trial = dict(dims, **{primary: d})
+        assert abs(design.resonant_frequency(key, trial, 4.4, 1.4) - 2.45) < 1e-3, key

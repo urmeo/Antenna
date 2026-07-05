@@ -171,7 +171,14 @@ Every number above is a computed view of [results.json](tools/data/results.json)
 
 ## Applications
 
-2.45 GHz ISM band: Wi-Fi (802.11 b/g/n), Bluetooth/BLE, ZigBee, RFID readers, wireless medical telemetry, industrial telemetry and microwave power transfer — low profile, cheap to etch, easily arrayed.
+| # | Application | Why 2.45 GHz patches fit |
+|---|---|---|
+| 1 | Wi-Fi (802.11 b/g/n) access points and clients | Low profile, direct PCB integration |
+| 2 | Bluetooth and BLE modules | Compact footprint on standard FR-4 |
+| 3 | ZigBee / IEEE 802.15.4 sensor networks | Cheap to mass-produce with node hardware |
+| 4 | RFID readers (2.45 GHz ISM band) | Directional pattern suits gate and portal readers |
+| 5 | Wireless medical telemetry | Conformal, lightweight, body-worn friendly |
+| 6 | ISM-band industrial telemetry and microwave power transfer | Etchable, low cost, easily arrayed for higher gain |
 
 ## Tech Stack
 

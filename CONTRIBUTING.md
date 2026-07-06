@@ -22,6 +22,7 @@ The toolkit targets Python 3.9+ and its core is standard-library only:
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+pip install --upgrade pip       # editable pyproject installs need pip >= 21.3
 pip install -e ".[plots,dev]"   # antenna package + matplotlib (plots) + pytest
 ```
 

@@ -179,7 +179,7 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 <thead><tr><th>Layer <img src="images/spacer.png" width="284" height="1"></th><th>Tool <img src="images/spacer.png" width="1316" height="1"></th></tr></thead>
 <tbody>
 <tr><td>EM simulation</td><td>CST Studio Suite (VBA macro, time-domain solver)</td></tr>
-<tr><td>Model scripting</td><td>CST VBA (<a href="cst/patch-antenna.bas">patch-antenna.bas</a>)</td></tr>
+<tr><td>Model scripting</td><td>CST VBA</td></tr>
 <tr><td>Analysis toolkit</td><td>Python 3.9+ (standard library core; matplotlib optional)</td></tr>
 <tr><td>Testing</td><td>pytest (21 tests)</td></tr>
 <tr><td>Mask design</td><td>CorelDraw</td></tr>

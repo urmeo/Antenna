@@ -1,6 +1,6 @@
-# Microstrip Patch Antenna: 2.45 GHz Geometry Comparison
+# Microstrip Patch Antenna: 2.45 GHz Benchmark: circular, F-shaped, triangular, square, hexagonal
 
-**Which patch shape performs best at 2.45 GHz — the ISM band behind Wi-Fi, Bluetooth, and ZigBee?** Five geometries — circular, F-shaped, triangular, square, hexagonal — designed, simulated in CST Studio Suite, fabricated on FR-4, measured on a Rohde & Schwarz VNA. **The circular patch wins in both simulation and measurement.**
+**Which patch shape performs best at 2.45 GHz, the ISM band powering Wi-Fi, Bluetooth, ZigBee, RFID, and medical telemetry?** Five geometries (circular, F-shaped, triangular, square, hexagonal): designed, simulated in CST Studio Suite, fabricated on FR-4, measured on a Rohde & Schwarz VNA. **The circular patch wins in both simulation and measurement.**
 
 ![All five fabricated antenna geometries](images/antennas/all-five-geometries.jpg)
 

@@ -9,8 +9,8 @@
 ### Simulation (CST Studio Suite)
 
 <!-- BEGIN:sim-table -->
-<table width="100%">
-<thead><tr><th>Geometry</th><th>S11 (dB)</th><th>VSWR</th><th>Bandwidth (%)</th><th>Main Lobe (dB)</th><th>Side Lobe (dB)</th></tr></thead>
+<table>
+<thead><tr><th>Geometry <img src="images/spacer.png" width="250" height="1"></th><th>S11 (dB) <img src="images/spacer.png" width="200" height="1"></th><th>VSWR <img src="images/spacer.png" width="125" height="1"></th><th>Bandwidth (%) <img src="images/spacer.png" width="325" height="1"></th><th>Main Lobe (dB) <img src="images/spacer.png" width="350" height="1"></th><th>Side Lobe (dB) <img src="images/spacer.png" width="350" height="1"></th></tr></thead>
 <tbody>
 <tr><td><strong>Circular</strong></td><td><strong>−53.08</strong></td><td><strong>1.004</strong></td><td><strong>3.12</strong></td><td><strong>5.54</strong></td><td><strong>−3.7</strong></td></tr>
 <tr><td>F-shaped</td><td>−30.02</td><td>1.065</td><td>2.98</td><td>4.11</td><td>−1.6</td></tr>
@@ -26,8 +26,8 @@
 ### Measurement (VNA)
 
 <!-- BEGIN:measurement-table -->
-<table width="100%">
-<thead><tr><th>Geometry</th><th>S11 (dB)</th><th>VSWR</th></tr></thead>
+<table>
+<thead><tr><th>Geometry <img src="images/spacer.png" width="696" height="1"></th><th>S11 (dB) <img src="images/spacer.png" width="557" height="1"></th><th>VSWR <img src="images/spacer.png" width="348" height="1"></th></tr></thead>
 <tbody>
 <tr><td><strong>Circular</strong></td><td><strong>−31.99</strong></td><td><strong>1.125</strong></td></tr>
 <tr><td>F-shaped</td><td>−16.98</td><td>1.167</td></tr>
@@ -41,8 +41,8 @@
 ### Simulation vs. Measurement
 
 <!-- BEGIN:delta-table -->
-<table width="100%">
-<thead><tr><th>Geometry</th><th>S11 sim (dB)</th><th>S11 meas (dB)</th><th>ΔS11 (dB)</th><th>VSWR sim</th><th>VSWR meas</th><th>ΔVSWR</th></tr></thead>
+<table>
+<thead><tr><th>Geometry <img src="images/spacer.png" width="239" height="1"></th><th>S11 sim (dB) <img src="images/spacer.png" width="287" height="1"></th><th>S11 meas (dB) <img src="images/spacer.png" width="310" height="1"></th><th>ΔS11 (dB) <img src="images/spacer.png" width="215" height="1"></th><th>VSWR sim <img src="images/spacer.png" width="191" height="1"></th><th>VSWR meas <img src="images/spacer.png" width="215" height="1"></th><th>ΔVSWR <img src="images/spacer.png" width="143" height="1"></th></tr></thead>
 <tbody>
 <tr><td>Circular</td><td>−53.08</td><td>−31.99</td><td>+21.09</td><td>1.004</td><td>1.125</td><td>+0.121</td></tr>
 <tr><td>F-shaped</td><td>−30.02</td><td>−16.98</td><td>+13.04</td><td>1.065</td><td>1.167</td><td>+0.102</td></tr>
@@ -62,8 +62,8 @@
 Different footprints, so normalise:
 
 <!-- BEGIN:fom-table -->
-<table width="100%">
-<thead><tr><th>Geometry</th><th>Footprint (mm²)</th><th>Main Lobe (dB)</th><th>Gain ÷ area (cm⁻²)</th><th>Gain × BW</th></tr></thead>
+<table>
+<thead><tr><th>Geometry <img src="images/spacer.png" width="242" height="1"></th><th>Footprint (mm²) <img src="images/spacer.png" width="364" height="1"></th><th>Main Lobe (dB) <img src="images/spacer.png" width="339" height="1"></th><th>Gain ÷ area (cm⁻²) <img src="images/spacer.png" width="436" height="1"></th><th>Gain × BW <img src="images/spacer.png" width="218" height="1"></th></tr></thead>
 <tbody>
 <tr><td><strong>Circular</strong></td><td><strong>908</strong></td><td><strong>5.54</strong></td><td><strong>0.394</strong></td><td><strong>0.112</strong></td></tr>
 <tr><td>F-shaped</td><td>635</td><td>4.11</td><td>0.406</td><td>0.077</td></tr>
@@ -90,8 +90,8 @@ Two samples per design, photolithography on FR-4, SMA-fed:
 
 ### Common
 
-<table width="100%">
-<thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+<table>
+<thead><tr><th>Parameter <img src="images/spacer.png" width="690" height="1"></th><th>Value <img src="images/spacer.png" width="910" height="1"></th></tr></thead>
 <tbody>
 <tr><td>Operating frequency</td><td>2.45 GHz</td></tr>
 <tr><td>Substrate</td><td>FR-4 (εr ≈ 4.4, tan δ = 0.02)</td></tr>
@@ -105,8 +105,8 @@ Two samples per design, photolithography on FR-4, SMA-fed:
 
 ### Geometry-Specific
 
-<table width="100%">
-<thead><tr><th>Geometry</th><th>Dimensions</th></tr></thead>
+<table>
+<thead><tr><th>Geometry <img src="images/spacer.png" width="213" height="1"></th><th>Dimensions <img src="images/spacer.png" width="1387" height="1"></th></tr></thead>
 <tbody>
 <tr><td>Circular</td><td>R = 17.0 mm</td></tr>
 <tr><td>Square</td><td>S = 29.38 mm</td></tr>
@@ -120,8 +120,8 @@ Two samples per design, photolithography on FR-4, SMA-fed:
 
 Set PatchShape in Main and run — [patch-antenna.bas](cst/patch-antenna.bas) builds substrate, ground plane, patch, feed, waveguide port, monitors, and solver from scratch.
 
-<table width="100%">
-<thead><tr><th>PatchShape</th><th>Patch construction</th></tr></thead>
+<table>
+<thead><tr><th>PatchShape <img src="images/spacer.png" width="270" height="1"></th><th>Patch construction <img src="images/spacer.png" width="1330" height="1"></th></tr></thead>
 <tbody>
 <tr><td>"circular"</td><td>Cylinder, R = 17.0 mm</td></tr>
 <tr><td>"square"</td><td>Brick, S = 29.38 mm</td></tr>
@@ -169,8 +169,8 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 
 Every number above is a computed view of [results.json](tools/antenna/data/results.json) — tables cannot drift from the data, or from each other.
 
-<table width="100%">
-<thead><tr><th>Module</th><th>What it does</th></tr></thead>
+<table>
+<thead><tr><th>Module <img src="images/spacer.png" width="221" height="1"></th><th>What it does <img src="images/spacer.png" width="1379" height="1"></th></tr></thead>
 <tbody>
 <tr><td>metrics.py</td><td>Exact S11, reflection coefficient, and VSWR identities; bandwidth from band edges</td></tr>
 <tr><td>design.py</td><td>Shape-correct resonance equations (Balanis, Garg) and patch footprint areas</td></tr>
@@ -190,8 +190,8 @@ Every number above is a computed view of [results.json](tools/antenna/data/resul
 
 ## Applications
 
-<table width="100%">
-<thead><tr><th>#</th><th>Application</th><th>Why 2.45 GHz patches fit</th></tr></thead>
+<table>
+<thead><tr><th># <img src="images/spacer.png" width="60" height="1"></th><th>Application <img src="images/spacer.png" width="851" height="1"></th><th>Why 2.45 GHz patches fit <img src="images/spacer.png" width="734" height="1"></th></tr></thead>
 <tbody>
 <tr><td>1</td><td>Wi-Fi (802.11 b/g/n) access points and clients</td><td>Low profile, direct PCB integration</td></tr>
 <tr><td>2</td><td>Bluetooth and BLE modules</td><td>Compact footprint on standard FR-4</td></tr>
@@ -204,8 +204,8 @@ Every number above is a computed view of [results.json](tools/antenna/data/resul
 
 ## Tech Stack
 
-<table width="100%">
-<thead><tr><th>Layer</th><th>Tool</th></tr></thead>
+<table>
+<thead><tr><th>Layer <img src="images/spacer.png" width="284" height="1"></th><th>Tool <img src="images/spacer.png" width="1316" height="1"></th></tr></thead>
 <tbody>
 <tr><td>EM simulation</td><td>CST Studio Suite (VBA macro, time-domain solver)</td></tr>
 <tr><td>Model scripting</td><td>CST VBA (<a href="cst/patch-antenna.bas">patch-antenna.bas</a>)</td></tr>
@@ -220,8 +220,8 @@ Every number above is a computed view of [results.json](tools/antenna/data/resul
 
 ## Documentation
 
-<table width="100%">
-<thead><tr><th>Document</th><th>Contents</th></tr></thead>
+<table>
+<thead><tr><th>Document <img src="images/spacer.png" width="605" height="1"></th><th>Contents <img src="images/spacer.png" width="995" height="1"></th></tr></thead>
 <tbody>
 <tr><td><a href="docs/methodology.pdf">methodology.pdf</a></td><td>Design parameters, substrate specs, VNA calibration</td></tr>
 <tr><td><a href="docs/simulation-and-results.pdf">simulation-and-results.pdf</a></td><td>CST results: S11, VSWR, radiation patterns, gain</td></tr>

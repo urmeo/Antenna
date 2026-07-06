@@ -15,10 +15,6 @@ from .results import Dataset, load
 
 MINUS = "−"
 
-# Invisible header padding widens each table toward the page width
-# (GitHub sizes tables to their content).
-_HEADER_PAD = {"sim-table": 65, "measurement-table": 145, "delta-table": 35, "fom-table": 55}
-
 
 def _num(value: float, decimals: int) -> str:
     text = "%.*f" % (decimals, abs(value))
@@ -95,15 +91,8 @@ TABLES = {
 }
 
 
-def _pad_header(markdown: str, pad: int) -> str:
-    lines = markdown.split("\n")
-    head, tail = lines[0].rsplit(" |", 1)
-    lines[0] = head + "&nbsp;" * pad + " |" + tail
-    return "\n".join(lines)
-
-
 def render_all(ds: Dataset) -> Dict[str, str]:
-    return {name: _pad_header(fn(ds), _HEADER_PAD[name]) for name, fn in TABLES.items()}
+    return {name: fn(ds) for name, fn in TABLES.items()}
 
 
 def inject(readme_path: str, ds: "Dataset | None" = None) -> List[str]:

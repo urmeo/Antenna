@@ -10,15 +10,6 @@ def test_num_uses_unicode_minus():
     assert tables._signed(0.85, 2) == "+0.85"
 
 
-def test_pad_header_extends_last_column():
-    md = "| A | B |\n|---|---|\n| 1 | 2 |"
-    padded = tables._pad_header(md, 20)
-    header = padded.split("\n")[0]
-    assert header.count("&nbsp;") == 20
-    assert header.startswith("| A | B&nbsp;")  # padding lands in the last cell only
-    assert padded.split("\n")[1:] == md.split("\n")[1:]
-
-
 def test_inject_is_idempotent(tmp_path):
     readme = tmp_path / "README.md"
     readme.write_text(textwrap.dedent("""\

@@ -62,16 +62,15 @@ into the toolkit with `python -m antenna ingest path/to/sweep.s1p`.
 
 ## Commit style
 
-This repo follows [Conventional Commits](https://www.conventionalcommits.org)
-with a terse description: `type: short summary`. Use `feat:`, `fix:`, `docs:`,
-`test:`, `refactor:`, `build:`, or `chore:`. Keep one logical change per commit.
+Short, lowercase, human messages that say what changed. One logical change per
+commit.
 
 Examples:
 
 ```
-feat: add elliptical patch geometry
-fix: correct circular resonance constant
-docs: note FR-4 tolerance sweep
+updated readme
+updated tables
+added elliptical patch
 ```
 
 ## Filing an issue
@@ -84,7 +83,7 @@ command you ran and the full output.
 ## Opening a pull request
 
 1. Branch off `main`.
-2. Make your change; keep commits focused and Conventional.
+2. Make your change; keep commits small and focused.
 3. Run `python -m antenna check` and `pytest` locally — both must pass.
 4. If you touched `results.json`, run `python -m antenna tables --write` and
    commit the regenerated tables.

@@ -181,7 +181,7 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 <tr><td>EM simulation</td><td>CST Studio Suite (VBA macro, time-domain solver)</td></tr>
 <tr><td>Model scripting</td><td>CST VBA (<a href="cst/patch-antenna.bas">patch-antenna.bas</a>)</td></tr>
 <tr><td>Analysis toolkit</td><td>Python 3.9+ (standard library core; matplotlib optional)</td></tr>
-<tr><td>Testing</td><td>pytest (14 tests)</td></tr>
+<tr><td>Testing</td><td>pytest (21 tests)</td></tr>
 <tr><td>Mask design</td><td>CorelDraw</td></tr>
 <tr><td>Fabrication</td><td>Photolithography: laminator, UV exposure, NaOH developer, chemical etching</td></tr>
 <tr><td>Measurement</td><td>Rohde & Schwarz ZVH vector network analyzer</td></tr>

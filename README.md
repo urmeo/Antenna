@@ -100,7 +100,7 @@ Two samples per design (one measured), photolithography on FR-4, SMA-fed:
 
 ## Simulation
 
-Set PatchShape in Main and run — [patch-antenna.bas](cst/patch-antenna.bas) builds substrate, ground plane, patch, feed, waveguide port, monitors, and solver from scratch.
+Set PatchShape in Main and run: [patch-antenna.bas](cst/patch-antenna.bas) builds substrate, ground plane, patch, feed, waveguide port, monitors, and solver from scratch.
 
 | PatchShape | Patch construction |
 |---|---|
@@ -141,7 +141,7 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 | ![S11 sim vs meas](images/plots/s11_sim_vs_meas.png) | ![CST S11 circular patch](images/plots/s11_circular_cst.png) |
 
 - Left: measured S11 tracks the simulated ranking, all five below −10 dB
-- Right: the winner's simulated S11 — a −53.08 dB null at 2.434 GHz (Fig 4.2)
+- Right: the winner's simulated S11 shows a −53.08 dB null at 2.434 GHz (Fig 4.2)
 - Full CST outputs for all five shapes in [simulation-and-results.pdf](docs/simulation-and-results.pdf)
 
 ## Analysis Toolkit

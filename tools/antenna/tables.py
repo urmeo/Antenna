@@ -27,13 +27,12 @@ def _signed(value: float, decimals: int) -> str:
 
 
 def _table(headers: Sequence[str], rows: Sequence[Tuple[List[str], bool]]) -> str:
-    def emphasise(cells: List[str], bold: bool) -> List[str]:
-        return ["**%s**" % c for c in cells] if bold else cells
+    def cell(text: str, bold: bool) -> str:
+        return "<td><strong>%s</strong></td>" % text if bold else "<td>%s</td>" % text
 
-    lines = ["| " + " | ".join(headers) + " |",
-             "|" + "|".join("---" for _ in headers) + "|"]
-    lines += ["| " + " | ".join(emphasise(cells, bold)) + " |" for cells, bold in rows]
-    return "\n".join(lines)
+    head = "".join("<th>%s</th>" % h for h in headers)
+    body = "\n".join("<tr>%s</tr>" % "".join(cell(c, bold) for c in cells) for cells, bold in rows)
+    return '<table width="100%">\n<thead><tr>' + head + "</tr></thead>\n<tbody>\n" + body + "\n</tbody>\n</table>"
 
 
 def simulation_table(ds: Dataset) -> str:

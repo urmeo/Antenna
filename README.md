@@ -182,11 +182,11 @@ Every number above is a computed view of [results.json](tools/antenna/data/resul
 </tbody>
 </table>
 
-## Known Limitations
+## Limitations
 
-- Simulation tables use the earlier PEC model — rerun the copper macro to refresh them
-- Measured S11/VSWR pairs and three stored bandwidths disagree slightly with their own sweep data; single sample per design, all flagged in CI
-- Most patches are detuned from 2.45 GHz — only the circular patch's −10 dB band brackets the target; antenna synth gives corrected dimensions
+- Tables use the earlier PEC model; rerun the copper macro to refresh
+- Measured pairs and three bandwidths disagree with their sweeps; single sample, CI-flagged
+- Only the circular patch hits 2.45 GHz; antenna synth corrects the rest
 
 ## Applications
 

@@ -66,7 +66,7 @@ Different footprints, so normalise:
 
 ## Fabricated Antennas
 
-Two samples per design, photolithography on FR-4, SMA-fed:
+Two samples per design (one measured), photolithography on FR-4, SMA-fed:
 
 | Circular (best performer) | F-shaped | Triangular |
 |:---:|:---:|:---:|
@@ -134,7 +134,7 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 |:---:|:---:|
 | ![FR-4](images/fabrication/fr4-substrate-blank.jpg) | ![NaOH bath](images/fabrication/circular-patch-naoh-bath.jpg) |
 
-## Results
+## Figures
 
 | Return loss: simulation vs measurement | CST S11 sweep: circular patch |
 |:---:|:---:|

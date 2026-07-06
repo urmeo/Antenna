@@ -1,31 +1,14 @@
-# OS files
+# macOS
 .DS_Store
-._*
-Thumbs.db
-Desktop.ini
 
 # CST Studio Suite
 *.cst
 *.cstlog
 *.s1p
-Result/
-Model/
-Cache/
-Temp/
-*.bak
-
-# Editor files
-.vscode/
-*.swp
-*.swo
-*~
 
 # Python
 __pycache__/
-*.pyc
 *.egg-info/
 .pytest_cache/
 .venv/
-.coverage
 build/
-dist/

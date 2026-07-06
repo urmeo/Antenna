@@ -29,6 +29,3 @@ __pycache__/
 .coverage
 build/
 dist/
-
-# Local tooling
-.claude/

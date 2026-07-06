@@ -146,8 +146,6 @@ Full process in [fabrication-and-measurement.pdf](docs/fabrication-and-measureme
 
 ## Analysis Toolkit
 
-Every number above is a computed view of [results.json](tools/antenna/data/results.json) — tables cannot drift from the data, or from each other.
-
 <table>
 <thead><tr><th>Module <img src="images/spacer.png" width="221" height="1"></th><th>What it does <img src="images/spacer.png" width="1379" height="1"></th></tr></thead>
 <tbody>

@@ -17,20 +17,16 @@ reproducibility, or add a geometry are welcome.
 
 ## Development setup
 
-The toolkit targets Python 3.9+ and its core is standard-library only. A lockfile
-is committed so the optional plotting and test dependencies resolve identically
-everywhere:
+The toolkit targets Python 3.9+ and its core is standard-library only:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install -r requirements.lock   # pinned, hashed; reproducible install
-pip install -e .                   # put the `antenna` package on the path
+pip install -e ".[plots,dev]"   # antenna package + matplotlib (plots) + pytest
 ```
 
-`requirements.lock` covers all extras (matplotlib for plots, pytest for the
-suite). If you only need the core toolkit, `pip install -e .` on its own is
-enough — it pulls in nothing beyond the standard library.
+The core needs nothing beyond the standard library — `pip install -e .` on its
+own is enough if you don't need the plots or the test suite.
 
 ## Checks
 

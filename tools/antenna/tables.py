@@ -15,19 +15,6 @@ from .results import Dataset, load
 
 MINUS = "−"
 
-# Transparent 1px spacers in the header row force every table to full page
-# width with columns sized to their content (GitHub's stylesheet ignores the
-# table width attribute but honours img width, shrinking it on small screens).
-_SPACER = '<img src="images/spacer.png" width="%d" height="1">'
-_SPACER_TOTAL = 1600
-_SPACER_FLOOR = 60
-
-
-def _column_spacers(columns: List[List[str]]) -> List[int]:
-    lengths = [max(len(text) for text in column) for column in columns]
-    scale = _SPACER_TOTAL / sum(lengths)
-    return [max(_SPACER_FLOOR, round(length * scale)) for length in lengths]
-
 
 def _num(value: float, decimals: int) -> str:
     text = "%.*f" % (decimals, abs(value))
@@ -40,13 +27,13 @@ def _signed(value: float, decimals: int) -> str:
 
 
 def _table(headers: Sequence[str], rows: Sequence[Tuple[List[str], bool]]) -> str:
-    def cell(text: str, bold: bool) -> str:
-        return "<td><strong>%s</strong></td>" % text if bold else "<td>%s</td>" % text
+    def emphasise(cells: List[str], bold: bool) -> List[str]:
+        return ["**%s**" % c for c in cells] if bold else cells
 
-    spacers = _column_spacers([[h] + [cells[i] for cells, _ in rows] for i, h in enumerate(headers)])
-    head = "".join("<th>%s %s</th>" % (h, _SPACER % w) for h, w in zip(headers, spacers))
-    body = "\n".join("<tr>%s</tr>" % "".join(cell(c, bold) for c in cells) for cells, bold in rows)
-    return "<table>\n<thead><tr>" + head + "</tr></thead>\n<tbody>\n" + body + "\n</tbody>\n</table>"
+    lines = ["| " + " | ".join(headers) + " |",
+             "|" + "|".join("---" for _ in headers) + "|"]
+    lines += ["| " + " | ".join(emphasise(cells, bold)) + " |" for cells, bold in rows]
+    return "\n".join(lines)
 
 
 def simulation_table(ds: Dataset) -> str:

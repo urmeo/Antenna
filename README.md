@@ -9,16 +9,13 @@
 ### Simulation (CST Studio Suite)
 
 <!-- BEGIN:sim-table -->
-<table>
-<thead><tr><th>Geometry <img src="images/spacer.png" width="250" height="1"></th><th>S11 (dB) <img src="images/spacer.png" width="200" height="1"></th><th>VSWR <img src="images/spacer.png" width="125" height="1"></th><th>Bandwidth (%) <img src="images/spacer.png" width="325" height="1"></th><th>Main Lobe (dB) <img src="images/spacer.png" width="350" height="1"></th><th>Side Lobe (dB) <img src="images/spacer.png" width="350" height="1"></th></tr></thead>
-<tbody>
-<tr><td><strong>Circular</strong></td><td><strong>−53.08</strong></td><td><strong>1.004</strong></td><td><strong>3.12</strong></td><td><strong>5.54</strong></td><td><strong>−3.7</strong></td></tr>
-<tr><td>F-shaped</td><td>−30.02</td><td>1.065</td><td>2.98</td><td>4.11</td><td>−1.6</td></tr>
-<tr><td>Triangular</td><td>−18.86</td><td>1.257</td><td>2.45</td><td>4.51</td><td>−0.6</td></tr>
-<tr><td>Square</td><td>−16.38</td><td>1.357</td><td>2.41</td><td>3.00</td><td>−6.7</td></tr>
-<tr><td>Hexagonal</td><td>−14.78</td><td>1.446</td><td>2.12</td><td>5.54</td><td>−7.0</td></tr>
-</tbody>
-</table>
+| Geometry | S11 (dB) | VSWR | Bandwidth (%) | Main Lobe (dB) | Side Lobe (dB) |
+|---|---|---|---|---|---|
+| **Circular** | **−53.08** | **1.004** | **3.12** | **5.54** | **−3.7** |
+| F-shaped | −30.02 | 1.065 | 2.98 | 4.11 | −1.6 |
+| Triangular | −18.86 | 1.257 | 2.45 | 4.51 | −0.6 |
+| Square | −16.38 | 1.357 | 2.41 | 3.00 | −6.7 |
+| Hexagonal | −14.78 | 1.446 | 2.12 | 5.54 | −7.0 |
 <!-- END:sim-table -->
 
 > *Main Lobe (dB)* is CST's far-field main-lobe magnitude; circular and hexagonal genuinely tie at 5.54 dB.
@@ -26,31 +23,25 @@
 ### Measurement (VNA)
 
 <!-- BEGIN:measurement-table -->
-<table>
-<thead><tr><th>Geometry <img src="images/spacer.png" width="696" height="1"></th><th>S11 (dB) <img src="images/spacer.png" width="557" height="1"></th><th>VSWR <img src="images/spacer.png" width="348" height="1"></th></tr></thead>
-<tbody>
-<tr><td><strong>Circular</strong></td><td><strong>−31.99</strong></td><td><strong>1.125</strong></td></tr>
-<tr><td>F-shaped</td><td>−16.98</td><td>1.167</td></tr>
-<tr><td>Triangular</td><td>−15.37</td><td>1.368</td></tr>
-<tr><td>Square</td><td>−14.46</td><td>1.536</td></tr>
-<tr><td>Hexagonal</td><td>−13.93</td><td>1.694</td></tr>
-</tbody>
-</table>
+| Geometry | S11 (dB) | VSWR |
+|---|---|---|
+| **Circular** | **−31.99** | **1.125** |
+| F-shaped | −16.98 | 1.167 |
+| Triangular | −15.37 | 1.368 |
+| Square | −14.46 | 1.536 |
+| Hexagonal | −13.93 | 1.694 |
 <!-- END:measurement-table -->
 
 ### Simulation vs. Measurement
 
 <!-- BEGIN:delta-table -->
-<table>
-<thead><tr><th>Geometry <img src="images/spacer.png" width="239" height="1"></th><th>S11 sim (dB) <img src="images/spacer.png" width="287" height="1"></th><th>S11 meas (dB) <img src="images/spacer.png" width="310" height="1"></th><th>ΔS11 (dB) <img src="images/spacer.png" width="215" height="1"></th><th>VSWR sim <img src="images/spacer.png" width="191" height="1"></th><th>VSWR meas <img src="images/spacer.png" width="215" height="1"></th><th>ΔVSWR <img src="images/spacer.png" width="143" height="1"></th></tr></thead>
-<tbody>
-<tr><td>Circular</td><td>−53.08</td><td>−31.99</td><td>+21.09</td><td>1.004</td><td>1.125</td><td>+0.121</td></tr>
-<tr><td>F-shaped</td><td>−30.02</td><td>−16.98</td><td>+13.04</td><td>1.065</td><td>1.167</td><td>+0.102</td></tr>
-<tr><td>Triangular</td><td>−18.86</td><td>−15.37</td><td>+3.49</td><td>1.257</td><td>1.368</td><td>+0.111</td></tr>
-<tr><td>Square</td><td>−16.38</td><td>−14.46</td><td>+1.92</td><td>1.357</td><td>1.536</td><td>+0.179</td></tr>
-<tr><td>Hexagonal</td><td>−14.78</td><td>−13.93</td><td>+0.85</td><td>1.446</td><td>1.694</td><td>+0.248</td></tr>
-</tbody>
-</table>
+| Geometry | S11 sim (dB) | S11 meas (dB) | ΔS11 (dB) | VSWR sim | VSWR meas | ΔVSWR |
+|---|---|---|---|---|---|---|
+| Circular | −53.08 | −31.99 | +21.09 | 1.004 | 1.125 | +0.121 |
+| F-shaped | −30.02 | −16.98 | +13.04 | 1.065 | 1.167 | +0.102 |
+| Triangular | −18.86 | −15.37 | +3.49 | 1.257 | 1.368 | +0.111 |
+| Square | −16.38 | −14.46 | +1.92 | 1.357 | 1.536 | +0.179 |
+| Hexagonal | −14.78 | −13.93 | +0.85 | 1.446 | 1.694 | +0.248 |
 <!-- END:delta-table -->
 
 - Same ranking in both; all five clear S11 < −10 dB
@@ -62,16 +53,13 @@
 Different footprints, so normalise:
 
 <!-- BEGIN:fom-table -->
-<table>
-<thead><tr><th>Geometry <img src="images/spacer.png" width="242" height="1"></th><th>Footprint (mm²) <img src="images/spacer.png" width="364" height="1"></th><th>Main Lobe (dB) <img src="images/spacer.png" width="339" height="1"></th><th>Gain ÷ area (cm⁻²) <img src="images/spacer.png" width="436" height="1"></th><th>Gain × BW <img src="images/spacer.png" width="218" height="1"></th></tr></thead>
-<tbody>
-<tr><td><strong>Circular</strong></td><td><strong>908</strong></td><td><strong>5.54</strong></td><td><strong>0.394</strong></td><td><strong>0.112</strong></td></tr>
-<tr><td>F-shaped</td><td>635</td><td>4.11</td><td>0.406</td><td>0.077</td></tr>
-<tr><td>Triangular</td><td>552</td><td>4.51</td><td>0.511</td><td>0.069</td></tr>
-<tr><td>Square</td><td>863</td><td>3.00</td><td>0.231</td><td>0.048</td></tr>
-<tr><td>Hexagonal</td><td>751</td><td>5.54</td><td>0.477</td><td>0.076</td></tr>
-</tbody>
-</table>
+| Geometry | Footprint (mm²) | Main Lobe (dB) | Gain ÷ area (cm⁻²) | Gain × BW |
+|---|---|---|---|---|
+| **Circular** | **908** | **5.54** | **0.394** | **0.112** |
+| F-shaped | 635 | 4.11 | 0.406 | 0.077 |
+| Triangular | 552 | 4.51 | 0.511 | 0.069 |
+| Square | 863 | 3.00 | 0.231 | 0.048 |
+| Hexagonal | 751 | 5.54 | 0.477 | 0.076 |
 <!-- END:fom-table -->
 
 - Link budget and bandwidth: **circular**. Tight board area: **triangular** or **hexagonal**.
@@ -90,46 +78,37 @@ Two samples per design, photolithography on FR-4, SMA-fed:
 
 ### Common
 
-<table>
-<thead><tr><th>Parameter <img src="images/spacer.png" width="690" height="1"></th><th>Value <img src="images/spacer.png" width="910" height="1"></th></tr></thead>
-<tbody>
-<tr><td>Operating frequency</td><td>2.45 GHz</td></tr>
-<tr><td>Substrate</td><td>FR-4 (εr ≈ 4.4, tan δ = 0.02)</td></tr>
-<tr><td>Substrate height (Hs)</td><td>1.4 mm</td></tr>
-<tr><td>Conductor height (Ht)</td><td>0.036 mm</td></tr>
-<tr><td>Ground plane (Wg × Lg)</td><td>75.20 × 58.76 mm</td></tr>
-<tr><td>Feed line width (Fw)</td><td>2.7 mm (50 Ω)</td></tr>
-<tr><td>Feed-patch gap (Gpf)</td><td>1 mm</td></tr>
-</tbody>
-</table>
+| Parameter | Value |
+|---|---|
+| Operating frequency | 2.45 GHz |
+| Substrate | FR-4 (εr ≈ 4.4, tan δ = 0.02) |
+| Substrate height (Hs) | 1.4 mm |
+| Conductor height (Ht) | 0.036 mm |
+| Ground plane (Wg × Lg) | 75.20 × 58.76 mm |
+| Feed line width (Fw) | 2.7 mm (50 Ω) |
+| Feed-patch gap (Gpf) | 1 mm |
 
 ### Geometry-Specific
 
-<table>
-<thead><tr><th>Geometry <img src="images/spacer.png" width="213" height="1"></th><th>Dimensions <img src="images/spacer.png" width="1387" height="1"></th></tr></thead>
-<tbody>
-<tr><td>Circular</td><td>R = 17.0 mm</td></tr>
-<tr><td>Square</td><td>S = 29.38 mm</td></tr>
-<tr><td>Triangular</td><td>Tb = 37.60 mm, Th = 29.38 mm</td></tr>
-<tr><td>Hexagonal</td><td>Ha = 17.0 mm</td></tr>
-<tr><td>F-shaped</td><td>W = 37.60, L = 29.38, Vw = 10.0, Bh = 8.0, Sh = 3.0, Mw = 25.0 mm</td></tr>
-</tbody>
-</table>
+| Geometry | Dimensions |
+|---|---|
+| Circular | R = 17.0 mm |
+| Square | S = 29.38 mm |
+| Triangular | Tb = 37.60 mm, Th = 29.38 mm |
+| Hexagonal | Ha = 17.0 mm |
+| F-shaped | W = 37.60, L = 29.38, Vw = 10.0, Bh = 8.0, Sh = 3.0, Mw = 25.0 mm |
 
 ## Simulation
 
 Set PatchShape in Main and run — [patch-antenna.bas](cst/patch-antenna.bas) builds substrate, ground plane, patch, feed, waveguide port, monitors, and solver from scratch.
 
-<table>
-<thead><tr><th>PatchShape <img src="images/spacer.png" width="270" height="1"></th><th>Patch construction <img src="images/spacer.png" width="1330" height="1"></th></tr></thead>
-<tbody>
-<tr><td>"circular"</td><td>Cylinder, R = 17.0 mm</td></tr>
-<tr><td>"square"</td><td>Brick, S = 29.38 mm</td></tr>
-<tr><td>"triangular"</td><td>Extruded isosceles triangle, base 37.60 mm, height 29.38 mm</td></tr>
-<tr><td>"hexagonal"</td><td>Extruded regular hexagon, side 17.0 mm</td></tr>
-<tr><td>"fshaped"</td><td>Boolean union of vertical bar + two horizontal bars</td></tr>
-</tbody>
-</table>
+| PatchShape | Patch construction |
+|---|---|
+| "circular" | Cylinder, R = 17.0 mm |
+| "square" | Brick, S = 29.38 mm |
+| "triangular" | Extruded isosceles triangle, base 37.60 mm, height 29.38 mm |
+| "hexagonal" | Extruded regular hexagon, side 17.0 mm |
+| "fshaped" | Boolean union of vertical bar + two horizontal bars |
 
 - Annealed-copper conductors; Eps exposed for FR-4 tolerance sweeps
 - Hex mesh, adaptive refinement, open boundaries, 6·Hs port

@@ -161,12 +161,6 @@ Every number above is a computed view of [results.json](tools/antenna/data/resul
 </tbody>
 </table>
 
-## Limitations
-
-- Tables use the earlier PEC model; rerun the copper macro to refresh
-- Measured pairs and three bandwidths disagree with their sweeps; single sample, CI-flagged
-- Only the circular patch hits 2.45 GHz; antenna synth corrects the rest
-
 ## Applications
 
 <table>

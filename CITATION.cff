@@ -7,8 +7,8 @@ authors:
     given-names: Urme
 license: MIT
 date-released: "2022-12-18"
-url: https://github.com/urme-b/Antenna
-repository-code: https://github.com/urme-b/Antenna
+url: https://github.com/urmeo/Antenna
+repository-code: https://github.com/urmeo/Antenna
 keywords:
   - microstrip patch antenna
   - 2.45 GHz

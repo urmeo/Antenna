@@ -53,13 +53,20 @@ def read_s1p(path: str) -> Sweep:
             if not line:
                 continue
             if line.startswith("#"):
-                tokens = line[1:].upper().split()
-                if tokens and tokens[0] in _FREQ_SCALE:
-                    freq_scale = _FREQ_SCALE[tokens[0]]
-                if "S" in tokens:
-                    after = tokens[tokens.index("S") + 1:]
-                    if after and after[0] in ("DB", "MA", "RI"):
-                        fmt = after[0]
+                tokens = iter(line[1:].upper().split())
+                for token in tokens:
+                    if token in _FREQ_SCALE:
+                        freq_scale = _FREQ_SCALE[token]
+                    elif token in ("DB", "MA", "RI"):
+                        fmt = token
+                    elif token in ("Y", "Z", "H", "G"):
+                        raise ValueError("read_s1p supports only S parameters")
+                    elif token == "R":
+                        resistance = float(next(tokens, "nan"))
+                        if not math.isfinite(resistance) or resistance <= 0:
+                            raise ValueError("invalid Touchstone reference resistance")
+                    elif token != "S":
+                        raise ValueError("unknown Touchstone option: %s" % token)
                 continue
             parts = line.split()
             if len(parts) < 3:

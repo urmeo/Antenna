@@ -1,5 +1,7 @@
 import textwrap
 
+import pytest
+
 from antenna.touchstone import read_s1p
 
 
@@ -53,3 +55,20 @@ def test_rejects_empty_and_malformed(tmp_path):
     bad.write_text("# GHz S DB R 50\n2.45 -20\n")
     with pytest.raises(ValueError):
         read_s1p(str(bad))
+
+
+@pytest.mark.parametrize("options", ["# MHz S DB R 50", "# R 50 DB S MHz", "# MHz DB"])
+def test_option_order_and_omitted_defaults(tmp_path, options):
+    path = tmp_path / "options.s1p"
+    path.write_text(options + "\n2450 -20 0\n")
+    sweep = read_s1p(str(path))
+    assert sweep.freqs_ghz == [2.45]
+    assert sweep.s11_db == [-20.]
+
+
+@pytest.mark.parametrize("parameter", ["Z", "Y", "H", "G"])
+def test_rejects_non_scattering_parameters(tmp_path, parameter):
+    path = tmp_path / "impedance.s1p"
+    path.write_text(f"# GHz {parameter} RI R 50\n2.45 50 0\n")
+    with pytest.raises(ValueError, match="S parameters"):
+        read_s1p(str(path))

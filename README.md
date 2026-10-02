@@ -32,6 +32,11 @@
 | Hexagonal | −13.93 | 1.694 |
 <!-- END:measurement-table -->
 
+Measurements use one sample per geometry and are unverified against raw VNA traces.
+All five reported S11/VSWR pairs disagree beyond the toolkit's VSWR tolerance of 0.01;
+three simulation bandwidth values remain pending verification. The ranking compares
+these reported values and has not been independently validated.
+
 ### Simulation vs. Measurement
 
 <!-- BEGIN:delta-table -->

@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools>=64"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "antenna-tools"
-version = "0.1.0"
+version = "0.2.0"
 description = "Analysis toolkit for the 2.45 GHz microstrip patch antenna study"
 readme = "README.md"
 authors = [{name = "Urme Bose"}]
-license = {text = "MIT"}
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
 dependencies = []
 

@@ -1,17 +1,7 @@
-# Security Policy
+# Security
 
-This repository holds antenna simulation data, measurement results, and small Python tools
-that render tables and plots from committed CSVs. It runs no server, exposes no service, and
-ships no secrets or API keys.
+Supported: latest `main`.
 
-## Supported versions
-
-Only the latest `main` is supported.
-
-## Reporting a vulnerability
-
-Please report privately rather than opening a public issue: use the repository's
-**Security** tab, then **Report a vulnerability**, to open a private advisory.
-
-Expect an acknowledgement within a few days. The realistic surface is limited to the Python
-dependency chain used by the plotting and consistency-check scripts.
+1. Report vulnerabilities through [private reporting](https://github.com/urmeo/Antenna/security/advisories/new).
+2. Include the command, package versions and a minimal reproducer. Remove private measurement files.
+3. Input files and plotting dependencies are the main attack surface. Install trusted packages and review CST macros before execution.

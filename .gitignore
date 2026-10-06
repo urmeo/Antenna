@@ -1,14 +1,9 @@
-# macOS
 .DS_Store
-
-# CST Studio Suite
-*.cst
-*.cstlog
-*.s1p
-
-# Python
 __pycache__/
 *.egg-info/
 .pytest_cache/
 .venv/
 build/
+dist/
+*.cst
+*.cstlog

@@ -1,10 +1,7 @@
-"""Validate the canonical results against the physics they must obey.
+"""Check recorded RF identities, input domains, and sizing estimates.
 
-Errors are hard contradictions (a self-inconsistent simulation row); warnings
-are unresolved data issues we already know about (the measurement VSWR that
-disagrees with its own return loss, bandwidths that don't follow from the band
-edges). CI fails only on errors, so the known-pending items stay visible without
-blocking the build.
+Finite pending discrepancies remain warnings until raw traces are available.
+Malformed inputs and unacknowledged inconsistencies are errors.
 """
 from __future__ import annotations
 
@@ -13,7 +10,7 @@ from typing import List
 
 from . import metrics
 from .design import resonant_frequency
-from .results import Dataset, load
+from .results import Dataset, load, validate
 
 VSWR_TOL = 0.01
 BANDWIDTH_TOL_PCT = 0.3
@@ -30,6 +27,10 @@ class Issue:
 
 def consistency_issues(ds: Dataset) -> List[Issue]:
     issues: List[Issue] = []
+    try:
+        validate(ds)
+    except ValueError as exc:
+        return [Issue("error", "dataset", "validation", str(exc))]
     er = ds.substrate.epsilon_r
     h = ds.substrate.height_mm
     fc = ds.design_frequency_ghz
@@ -53,11 +54,15 @@ def consistency_issues(ds: Dataset) -> List[Issue]:
                 % (f_lo, f_hi, bw_center, bw_design, fc, sim.bandwidth_pct)))
 
         # 3. Does the geometry actually resonate near the design frequency?
-        f_res = resonant_frequency(g.key, g.dimensions_mm, er, h)
+        try:
+            f_res = resonant_frequency(g.key, g.dimensions_mm, er, h)
+        except ValueError as exc:
+            issues.append(Issue("error", g.name, "resonance", str(exc)))
+            continue
         detune = abs(f_res - fc) / fc * 100.0
         if detune > DETUNE_TOL_PCT:
             issues.append(Issue("info", g.name, "resonance",
-                "closed-form resonance %.3f GHz is %.1f%% off the %.2f GHz target" % (f_res, detune, fc)))
+                "closed-form estimate %.3f GHz is %.1f%% off the %.2f GHz target" % (f_res, detune, fc)))
 
         # 4. Measurement S11 <-> VSWR (known-pending until verified against raw traces).
         if g.measurement is not None:
@@ -76,7 +81,7 @@ def run(path: "str | None" = None) -> int:
     ds = load(path)
     issues = consistency_issues(ds)
     if not issues:
-        print("OK - all results are physically consistent.")
+        print("OK - no recorded consistency violations.")
         return 0
 
     order = {"error": 0, "warning": 1, "info": 2}

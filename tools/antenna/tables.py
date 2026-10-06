@@ -1,15 +1,10 @@
-"""Render the README result tables from the canonical data file.
-
-Every table a reader sees is produced here, so the numbers cannot drift from
-``data/results.json``. Tables are injected into the README between
-``<!-- BEGIN:name -->`` / ``<!-- END:name -->`` markers.
-"""
+"""Render and verify marked README tables from canonical data."""
 from __future__ import annotations
 
 import re
 from typing import Dict, List, Sequence, Tuple
 
-from . import fom
+from . import fom, metrics
 from .design import patch_area_mm2
 from .results import Dataset, load
 
@@ -72,7 +67,7 @@ def delta_table(ds: Dataset) -> str:
 
 def figure_of_merit_table(ds: Dataset) -> str:
     headers = ["Geometry", "Footprint (mm²)", "Main Lobe (dB)",
-               "Gain ÷ area (cm⁻²)", "Gain × BW"]
+               "Pattern proxy ÷ area (cm⁻²)", "Pattern proxy × reported BW"]
     rows = []
     for g in ds.geometries:
         s = g.simulation
@@ -83,16 +78,64 @@ def figure_of_merit_table(ds: Dataset) -> str:
     return _table(headers, rows)
 
 
+def results_table(ds: Dataset) -> str:
+    headers = ["Shape", "Simulated S11 (dB)", "Measured S11 (dB)",
+               "Reported VSWR", "VSWR from measured S11"]
+    rows = []
+    for g in ds.geometries:
+        m = g.measurement
+        rows.append(([g.name, _num(g.simulation.s11_db, 2),
+                      _num(m.s11_db, 2) if m else "n/a",
+                      _num(m.vswr, 3) if m else "n/a",
+                      _num(metrics.vswr_from_s11_db(m.s11_db), 3) if m else "n/a"], g.highlight))
+    return _table(headers, rows)
+
+
+def bandwidth_table(ds: Dataset) -> str:
+    headers = ["Shape", "Reported band (GHz)", "Reported BW (%)", "BW from edges (%)"]
+    rows = []
+    for g in ds.geometries:
+        s = g.simulation
+        low, high = s.band_edges_ghz
+        rows.append(([g.name, "%s to %s" % (_num(low, 4), _num(high, 4)),
+                      _num(s.bandwidth_pct, 2),
+                      _num(metrics.fractional_bandwidth_pct(low, high), 2)], g.highlight))
+    return _table(headers, rows)
+
+
 TABLES = {
     "sim-table": simulation_table,
     "measurement-table": measurement_table,
     "delta-table": delta_table,
     "fom-table": figure_of_merit_table,
+    "results-table": results_table,
+    "bandwidth-table": bandwidth_table,
 }
 
 
 def render_all(ds: Dataset) -> Dict[str, str]:
     return {name: fn(ds) for name, fn in TABLES.items()}
+
+
+def check(readme_path: str, ds: "Dataset | None" = None) -> List[str]:
+    with open(readme_path, encoding="utf-8") as fh:
+        text = fh.read()
+    issues: List[str] = []
+    found = 0
+    for name, markdown in render_all(ds or load()).items():
+        begin, end = "<!-- BEGIN:%s -->" % name, "<!-- END:%s -->" % name
+        if begin not in text and end not in text:
+            continue
+        found += 1
+        if text.count(begin) != 1 or text.count(end) != 1:
+            issues.append("%s: missing or duplicate marker" % name)
+            continue
+        start, stop = text.index(begin) + len(begin), text.index(end)
+        if stop < start or text[start:stop].strip() != markdown:
+            issues.append("%s: table differs from source" % name)
+    if not found:
+        issues.append("no result table markers found")
+    return issues
 
 
 def inject(readme_path: str, ds: "Dataset | None" = None) -> List[str]:

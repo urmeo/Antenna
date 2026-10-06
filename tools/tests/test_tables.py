@@ -32,3 +32,15 @@ def test_inject_without_markers_changes_nothing(tmp_path):
     readme.write_text("# No markers here\n")
     assert tables.inject(str(readme), load()) == []
     assert readme.read_text() == "# No markers here\n"
+
+
+def test_check_reports_missing_markers_and_stale_values(tmp_path):
+    readme = tmp_path / "README.md"
+    readme.write_text("# No tables\n")
+    assert tables.check(str(readme)) == ["no result table markers found"]
+    readme.write_text("<!-- BEGIN:results-table -->\nstale\n<!-- END:results-table -->\n")
+    assert tables.check(str(readme)) == ["results-table: table differs from source"]
+    tables.inject(str(readme))
+    assert tables.check(str(readme)) == []
+    readme.write_text(readme.read_text() + "<!-- BEGIN:results-table -->")
+    assert tables.check(str(readme)) == ["results-table: missing or duplicate marker"]

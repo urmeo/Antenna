@@ -1,16 +1,18 @@
 Option Explicit
 
-' Microstrip patch antenna generator for CST Studio Suite.
-' One parametric model builds any of five 2.45 GHz FR-4 geometries:
-' circular, square, triangular, hexagonal, fshaped.
-' Set PatchShape in Main and run. Re-running rebuilds cleanly.
-
 Dim PatchShape As String
 Dim ConductorName As String
 
 Sub Main
     PatchShape = "circular"      ' circular | square | triangular | hexagonal | fshaped
     ConductorName = "Copper"
+
+    Select Case LCase(PatchShape)
+        Case "circular", "square", "triangular", "hexagonal", "fshaped"
+        Case Else
+            ReportError "Unknown patch shape: " & PatchShape
+            Exit Sub
+    End Select
 
     ResetModel
     StoreCommonParameters
@@ -26,11 +28,6 @@ Sub Main
     ConfigureSolver
     SolveAndExport   ' comment out to build the model only
 End Sub
-
-' ---- Parameters ----------------------------------------------------
-' Ground plane, substrate stack, feed, and the swept dielectric are
-' shared; each geometry adds its own patch dimensions plus two derived
-' expressions: Ey (patch edge facing the feed) and Fx (feed centre x).
 
 Sub StoreCommonParameters
     StoreDoubleParameter "Fc", 2.45      ' design frequency (GHz)
@@ -78,8 +75,6 @@ Sub StoreShapeParameters
     End Select
 End Sub
 
-' ---- Project setup -------------------------------------------------
-
 Sub SetupProject
     With Units
         .Geometry "mm"
@@ -113,7 +108,6 @@ Sub DefineMaterials
         .Create
     End With
 
-    ' Annealed copper (finite conductivity) models ohmic loss that PEC ignores.
     With Material
         .Reset
         .Name "Copper"
@@ -124,8 +118,6 @@ Sub DefineMaterials
         .Create
     End With
 End Sub
-
-' ---- Geometry ------------------------------------------------------
 
 Sub BuildGroundPlane
     With Brick
@@ -232,10 +224,6 @@ Sub AddBar (ByRef name As String, ByRef x0 As String, ByRef x1 As String, ByRef 
     End With
 End Sub
 
-' ---- Feed and port -------------------------------------------------
-' Driven off Ey/Fx so one definition serves every geometry. The port
-' spans the canonical 6*Hs on each side of the microstrip.
-
 Sub BuildFeedLine
     With Brick
         .Reset
@@ -261,8 +249,6 @@ Sub CreatePort
         .Create
     End With
 End Sub
-
-' ---- Monitors and solver -------------------------------------------
 
 Sub AddMonitors
     AddFieldMonitor "farfield (f=Fc)", "Farfield"
@@ -301,10 +287,6 @@ Sub ConfigureSolver
     End With
 End Sub
 
-' ---- Solve and export ----------------------------------------------
-' Runs the transient solver, then writes the reflection sweep to
-' s11.s1p, which `python -m antenna ingest` reads back.
-
 Sub SolveAndExport
     If Not Solver.Start Then
         ReportError "Solver failed; no S-parameters to export."
@@ -314,15 +296,13 @@ Sub SolveAndExport
     SelectTreeItem "1D Results\S-Parameters"
     With TOUCHSTONE
         .Reset
-        .FileName "s11"
+        .FileName PatchShape & "_s11"
         .Impedance 50
         .Renormalize "True"
         .FrequencyRange "Full"
         .Write
     End With
 End Sub
-
-' ---- Re-run safety -------------------------------------------------
 
 Sub ResetModel
     On Error Resume Next

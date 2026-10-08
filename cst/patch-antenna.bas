@@ -4,7 +4,7 @@ Dim PatchShape As String
 Dim ConductorName As String
 
 Sub Main
-    PatchShape = "circular"      ' circular | square | triangular | hexagonal | fshaped
+    PatchShape = "circular"
     ConductorName = "Copper"
 
     Select Case LCase(PatchShape)
@@ -26,20 +26,20 @@ Sub Main
     CreatePort
     AddMonitors
     ConfigureSolver
-    SolveAndExport   ' comment out to build the model only
+    SolveAndExport
 End Sub
 
 Sub StoreCommonParameters
-    StoreDoubleParameter "Fc", 2.45      ' design frequency (GHz)
-    StoreDoubleParameter "Fmin", 1.0     ' solver band start (GHz)
-    StoreDoubleParameter "Fmax", 3.0     ' solver band stop (GHz)
-    StoreDoubleParameter "Eps", 4.4      ' FR-4 permittivity (sweep 4.2..4.8)
-    StoreDoubleParameter "Wg", 75.20     ' ground / substrate width
-    StoreDoubleParameter "Lg", 58.76     ' ground / substrate length
-    StoreDoubleParameter "Hs", 1.4       ' substrate height
-    StoreDoubleParameter "Ht", 0.036     ' conductor (copper foil) height
-    StoreDoubleParameter "Fw", 2.7       ' 50-ohm feed width
-    StoreDoubleParameter "Gpf", 1.0      ' feed-to-patch gap
+    StoreDoubleParameter "Fc", 2.45
+    StoreDoubleParameter "Fmin", 1.0
+    StoreDoubleParameter "Fmax", 3.0
+    StoreDoubleParameter "Eps", 4.4
+    StoreDoubleParameter "Wg", 75.20
+    StoreDoubleParameter "Lg", 58.76
+    StoreDoubleParameter "Hs", 1.4
+    StoreDoubleParameter "Ht", 0.036
+    StoreDoubleParameter "Fw", 2.7
+    StoreDoubleParameter "Gpf", 1.0
 End Sub
 
 Sub StoreShapeParameters

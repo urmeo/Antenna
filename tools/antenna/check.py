@@ -19,7 +19,7 @@ DETUNE_TOL_PCT = 2.0
 
 @dataclass
 class Issue:
-    level: str  # "error" | "warning" | "info"
+    level: str
     geometry: str
     field: str
     message: str
@@ -38,13 +38,11 @@ def consistency_issues(ds: Dataset) -> List[Issue]:
     for g in ds.geometries:
         sim = g.simulation
 
-        # 1. Simulation S11 <-> VSWR must agree exactly (both are one |Gamma|).
         implied = metrics.vswr_from_s11_db(sim.s11_db)
         if abs(implied - sim.vswr) > VSWR_TOL:
             issues.append(Issue("error", g.name, "sim VSWR",
                 "S11 %.2f dB implies VSWR %.3f, table says %.3f" % (sim.s11_db, implied, sim.vswr)))
 
-        # 2. Bandwidth must follow from the stated band edges.
         f_lo, f_hi = sim.band_edges_ghz
         bw_center = metrics.fractional_bandwidth_pct(f_lo, f_hi)
         bw_design = metrics.fractional_bandwidth_pct(f_lo, f_hi, reference=fc)
@@ -53,7 +51,6 @@ def consistency_issues(ds: Dataset) -> List[Issue]:
                 "edges %.4f-%.4f GHz give %.2f%% (or %.2f%% vs %.2f GHz), table says %.2f%%"
                 % (f_lo, f_hi, bw_center, bw_design, fc, sim.bandwidth_pct)))
 
-        # 3. Does the geometry actually resonate near the design frequency?
         try:
             f_res = resonant_frequency(g.key, g.dimensions_mm, er, h)
         except ValueError as exc:
@@ -64,7 +61,6 @@ def consistency_issues(ds: Dataset) -> List[Issue]:
             issues.append(Issue("info", g.name, "resonance",
                 "closed-form estimate %.3f GHz is %.1f%% off the %.2f GHz target" % (f_res, detune, fc)))
 
-        # 4. Measurement S11 <-> VSWR (known-pending until verified against raw traces).
         if g.measurement is not None:
             m = g.measurement
             m_implied = metrics.vswr_from_s11_db(m.s11_db)

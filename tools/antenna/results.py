@@ -28,7 +28,7 @@ class Simulation:
     band_edges_ghz: List[float]
     main_lobe_db: float
     side_lobe_db: float
-    bandwidth_pending: bool = False  # stored % predates the band edges; awaiting re-simulation
+    bandwidth_pending: bool = False
 
 
 @dataclass

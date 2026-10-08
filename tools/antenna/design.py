@@ -11,7 +11,7 @@ from __future__ import annotations
 import math
 from typing import Dict
 
-C_MM_S = 2.997_924_58e11  # speed of light, mm/s
+C_MM_S = 2.997_924_58e11
 
 TRI_SQRT3 = math.sqrt(3.0)
 DIMENSIONS = {"circular": ("R",), "square": ("S",),
@@ -65,8 +65,6 @@ def _result(value: float) -> float:
     return value
 
 
-# ---- rectangular / square ------------------------------------------------
-
 def effective_permittivity(er: float, h_mm: float, w_mm: float) -> float:
     _material(er, h_mm)
     _positive(w_mm, "patch width")
@@ -89,8 +87,6 @@ def rectangular_resonant_frequency(length_mm: float, width_mm: float, er: float,
     return _result(C_MM_S / (2 * l_eff * math.sqrt(er_eff)) / 1e9)
 
 
-# ---- circular ------------------------------------------------------------
-
 def circular_resonant_frequency(radius_mm: float, er: float, h_mm: float) -> float:
     """Dominant TM11 resonant frequency (GHz) of a circular patch (Balanis 14-71)."""
     _material(er, h_mm)
@@ -103,8 +99,6 @@ def circular_resonant_frequency(radius_mm: float, er: float, h_mm: float) -> flo
     return _result(1.8412 * C_MM_S / (2 * math.pi * a_eff * math.sqrt(er)) / 1e9)
 
 
-# ---- equilateral triangle ------------------------------------------------
-
 def triangular_resonant_frequency(side_mm: float, er: float) -> float:
     """TM10 resonant frequency (GHz) of an equilateral triangular patch.
 
@@ -116,8 +110,6 @@ def triangular_resonant_frequency(side_mm: float, er: float) -> float:
     return _result(2 * C_MM_S / (3 * side_mm * math.sqrt(er)) / 1e9)
 
 
-# ---- regular hexagon (equal-area circular equivalent) --------------------
-
 def hexagon_equivalent_radius(side_mm: float) -> float:
     """Radius of a circular patch with the same area as a regular hexagon."""
     _positive(side_mm, "hexagon side")
@@ -128,8 +120,6 @@ def hexagonal_resonant_frequency(side_mm: float, er: float, h_mm: float) -> floa
     """Resonant frequency (GHz) via the equal-area circular-patch approximation."""
     return circular_resonant_frequency(hexagon_equivalent_radius(side_mm), er, h_mm)
 
-
-# ---- patch footprint areas ----------------------------------------------
 
 def patch_area_mm2(key: str, dims: Dict[str, float]) -> float:
     """Metal footprint area (mm^2), used for the area-normalised figure of merit."""
@@ -153,8 +143,8 @@ def _f_shape_area(d: Dict[str, float]) -> float:
     vertical = vw * length
     top = w * bh
     mid = mw * bh
-    overlap_top = vw * bh          # top bar over the vertical bar
-    overlap_mid = min(vw, mw) * bh  # mid bar over the vertical bar
+    overlap_top = vw * bh
+    overlap_mid = min(vw, mw) * bh
     return vertical + top + mid - overlap_top - overlap_mid
 
 
@@ -171,12 +161,10 @@ def resonant_frequency(key: str, dims: Dict[str, float], er: float, h_mm: float)
     if key == "hexagonal":
         return hexagonal_resonant_frequency(dims["Ha"], er, h_mm)
     if key == "fshaped":
-        # The F is a perturbed rectangle; its overall L sets the dominant mode.
         return rectangular_resonant_frequency(dims["L"], dims["W"], er, h_mm)
     raise ValueError("unknown geometry: %s" % key)
 
 
-# Dimension that primarily sets each geometry's resonance (larger -> lower f).
 PRIMARY_DIMENSION = {"circular": "R", "square": "S", "triangular": "Tb",
                      "hexagonal": "Ha", "fshaped": "L"}
 

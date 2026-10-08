@@ -41,7 +41,6 @@ def test_custom_geometry_labels_remain_in_one_markdown_cell():
     ds.geometries[0].name = "Circular | alternate feed\r\nsecond line"
     validate(ds)
     for report in render_all(ds).values():
-        # Two header lines plus one line for each geometry, including this name.
         assert len(report.splitlines()) == len(ds.geometries) + 2
         assert "Circular \\| alternate feed<br>second line" in report.splitlines()[2]
 
@@ -50,7 +49,6 @@ def test_backslash_before_pipe_preserves_a_literal_name():
     ds = load()
     ds.geometries[0].name = "Circular \\| feed"
     row = render_all(ds)["results-table"].splitlines()[2]
-    # Escaping the existing backslash keeps the following pipe escaped in Markdown.
     assert "Circular " + "\\" * 3 + "| feed" in row
 
 

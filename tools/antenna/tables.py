@@ -23,6 +23,9 @@ def _signed(value: float, decimals: int) -> str:
 
 def _table(headers: Sequence[str], rows: Sequence[Tuple[List[str], bool]]) -> str:
     def emphasise(cells: List[str], bold: bool) -> List[str]:
+        cells = [c.replace("\\", "\\\\").replace("|", "\\|")
+                  .replace("\r\n", "\n").replace("\r", "\n").replace("\n", "<br>")
+                 for c in cells]
         return ["**%s**" % c for c in cells] if bold else cells
 
     lines = ["| " + " | ".join(headers) + " |",
@@ -144,14 +147,29 @@ def inject(readme_path: str, ds: "Dataset | None" = None) -> List[str]:
     with open(readme_path, "r", encoding="utf-8") as fh:
         original = text = fh.read()
 
+    rendered = render_all(ds)
+    blocks = []
+    for name in rendered:
+        begin, end = "<!-- BEGIN:%s -->" % name, "<!-- END:%s -->" % name
+        if begin not in text and end not in text:
+            continue
+        if text.count(begin) != 1 or text.count(end) != 1:
+            raise ValueError("%s: missing or duplicate marker" % name)
+        if text.index(end) < text.index(begin) + len(begin):
+            raise ValueError("%s: markers are out of order" % name)
+        blocks.append((text.index(begin), text.index(end) + len(end)))
+    blocks.sort()
+    if any(start < previous_end for (_, previous_end), (start, _) in zip(blocks, blocks[1:])):
+        raise ValueError("table marker blocks overlap")
+
     updated: List[str] = []
-    for name, markdown in render_all(ds).items():
+    for name, markdown in rendered.items():
         pattern = re.compile(
-            r"(<!-- BEGIN:%s -->\n).*?(\n<!-- END:%s -->)" % (re.escape(name), re.escape(name)),
+            r"(<!-- BEGIN:%s -->).*?(<!-- END:%s -->)" % (re.escape(name), re.escape(name)),
             re.DOTALL,
         )
         if pattern.search(text):
-            text = pattern.sub(lambda mo: mo.group(1) + markdown + mo.group(2), text)
+            text = pattern.sub(lambda mo: mo.group(1) + "\n" + markdown + "\n" + mo.group(2), text)
             updated.append(name)
 
     if updated and text != original:

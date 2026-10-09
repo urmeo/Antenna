@@ -3,8 +3,7 @@ title: "Microstrip Patch Antenna 2.45 GHz Benchmark: circular, F-shaped, triangu
 message: "If you use this work, please cite it using the metadata below."
 type: software
 authors:
-  - family-names: Bose
-    given-names: Urme
+  - given-names: Urme
 license: MIT
 date-released: "2022-12-18"
 url: https://github.com/urmeo/Antenna
